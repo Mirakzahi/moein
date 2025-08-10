@@ -330,41 +330,7 @@
                 </div>
                 
                 <div class="grid lg:grid-cols-2 gap-8">
-                    <div class="card-glass rounded-2xl p-8">
-                        <div class="text-center mb-6">
-                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
-                                <span class="text-3xl text-white">⚙️</span>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white mb-2">کپی مستقیم کانفیگ</h3>
-                            <p class="text-blue-300">لیست سرورون جدید آلمان (CDN)</p>
-                        </div>
-                        
-                        <div id="config-list-container" class="space-y-3 h-64 overflow-y-auto config-list pr-2">
-                            </div>
                     </div>
-                    
-                    <div class="card-glass rounded-2xl p-8">
-                        <div class="text-center mb-6">
-                            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
-                                <span class="text-3xl text-white">📱</span>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white mb-2">QR کد کانفیگ</h3>
-                            <p class="text-purple-300">اسکن کن و متصل بح </p>
-                        </div>
-                        
-                        <div class="bg-white rounded-xl p-4 mb-6 shadow-inner text-center">
-                            <div id="qrcode" class="flex justify-center"></div>
-                        </div>
-                        
-                        <div>
-                            <select id="configSelect" onchange="generateQR()" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white font-medium transition-all">
-                                <option value="cf_de_1">VLESS - آلمان (CDN 1) 🇩🇪</option>
-                                <option value="cf_de_2">VLESS - آلمان (CDN 2) 🇩🇪</option>
-                                <option value="cf_de_tr_5">Trojan - آلمان (CDN 5) 🇩🇪</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -557,14 +523,14 @@
         const configs = {
             cf_de_1: { name: 'VLESS - آلمان (CDN 1)', config: 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws' },
             cf_de_2: { name: 'VLESS - آلمان (CDN 2)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FweIiUrqpwSQLUEGI%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%202' },
-            cf_de_3: { name: 'VLESS - آلمان (CDN 3)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Fed%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
+            cf_de_3: { name: 'VLESS - آلمان (CDN 3)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
             cf_de_4: { name: 'VLESS - آلمان (CDN 4)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FfNX3GzNxncCIIsf7%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%204' },
             cf_de_tr_5: { name: 'Trojan - آلمان (CDN 5)', config: 'trojan://%3AbC5%5Elakx%3E%24d@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FtrULF8XIBg0I5upoFe%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fK31lnDM4w8uJ0yp1dRWlTdTdko6y-CU.pAGES.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%205' },
             cf_de_tr_6: { name: 'Trojan - آلمان (CDN 6)', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrAF6D510tD4ptv2AR%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%206' },
             cf_de_tr_7: { name: 'Trojan - آلمان (CDN 7)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2Ftrucd7RaARX7VGCRLn%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%207' },
             cf_de_tr_8: { name: 'Trojan - آلمان (CDN 8)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.46.247:443?path=%2FtrSCnmRLkssMpXzgTT%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%208' },
             cf_plus_1: { name: 'VLESS - آلمان (CDN 9)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FXHPTFMTFoBNv6IV6&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8UJ0yP1dRwlTDTDKo6y-cU.PaGeS.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%201' },
-            cf_plus_2: { name: 'VLESS - آلمان (CDN 10)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FkDPocrIW3Ice02v4&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lnDM4W8UJ0YP1dRWLtdtDKO6Y-cu.pages.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%202' },
+            cf_plus_2: { name: 'VLESS - آلمان (CDN 10)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FkDPocrIW3Ice02v4&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lnDM4w8UJ0YP1dRWLtdtDKO6Y-cu.pages.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%202' },
             cf_plus_3: { name: 'VLESS - آلمان (CDN 11)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FlaGekhA1Q1IhSqJe&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8uJ0Yp1drWlTdTdkO6Y-Cu.pages.deV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%203' },
             cf_plus_4: { name: 'VLESS - آلمان (CDN 12)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FgL8gLANdh881Nj22&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%204' },
             cf_plus_tr_5: { name: 'VLESS - آلمان (CDN 13)', config: 'vmess://eyJhZGQiOiIxODUuMTQzLjIzNC4yMDAiLCJhaWQiOiIwIiwiYWxwbiI6IiIsImZwIjoiIiwiaG9zdCI6InBheS56aWJhbC5pci5nZXR3YXkubWVyY2hlbmQuYW50ZW4uaXIuc3RyZWFtLmZhcnNpcGluZy5pciIsImlkIjoiNjdjODIwZDktZDNjNS00YzFjLWE1Y2MtM2NjMzlkYzljMTBmIiwibmV0Ijoid3MiLCJwYXRoIjoiL3MyQlNwUDZ1VU9QUTQ5OXBocFlIODdUc1hsIiwicG9ydCI6IjQ0MyIsInBzIjoi8J+HqfCfh6pbUFJPXUdlcm1hbnlbTnVyZW1iZXJnXfCfjLUiLCJzY3kiOiJhdXRvIiwic25pIjoicGF5LnppYmFsLmlyLmdldHdheS5tZXJjaGVuZC5hbnRlbi5pci5zdHJlYW0uZmFyc2lwaW5nLmlyIiwidGxzIjoidGxzIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9' },
@@ -573,9 +539,8 @@
             cf_plus_tr_8: { name: 'Trojan - آلمان (CDN 16)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2FtrNs9G5VJ2vI0PxgP2&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%208' },
         };
 
-        // NEW: Exclusive subscription configurations without expiration date
         const exclusiveConfigs = {
-            '09307916368': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
+            '09123456789': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
             '09151112233': { name: 'علی احمدی', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
             '09164445566': { name: 'سارا کریمی', config: 'vless://exclusive-config-for-personal-use-3@127.0.0.3:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-3' },
             '09177778899': { name: 'رضا حسینی', config: 'vless://exclusive-config-for-personal-use-4@127.0.0.4:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-4' },
@@ -634,33 +599,6 @@
             { question: "اگر سرور قطع شود چه کنم؟", answer: "کافیست از لیست سرورها، یک سرور دیگر را انتخاب و متصل شوید. ما چندین سرور فعال برای اطمینان از پایداری سرویس داریم." },
             { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از آزادی‌نت روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
         ];
-
-        // --- CORE FUNCTIONS ---
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!sessionStorage.getItem('azadiNetWelcomed')) {
-                document.getElementById('welcomeModal').classList.remove('hidden');
-            }
-
-            buildFAQ();
-            buildConfigList();
-            updateServerStats();
-            generateQR();
-            setInterval(updateServerStats, 3000);
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-slide-up');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.animated-section').forEach(section => {
-                observer.observe(section);
-            });
-            
-            getUserInfo();
-        });
 
         function checkSubscription() {
             const phoneInput = document.getElementById('phoneInput').value.trim();
@@ -965,4 +903,3 @@
     </script>
 </body>
 </html>
-
