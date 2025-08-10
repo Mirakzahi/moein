@@ -44,10 +44,10 @@
             background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
             background-size: 400% 400%;
             animation: gradient-bg 15s ease infinite;
-            color: white; /* رنگ متن اصلی برای خوانایی بهتر */
+            color: white;
         }
         .card-glass {
-            background: rgba(255, 255, 255, 0.05); /* شفافیت برای کارت‌ها حفظ شود */
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -55,7 +55,7 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
         }
         .card-glass:hover {
-            background: rgba(255, 255, 255, 0.1); /* رنگ تیره بیشتر با شفافیت ۴۰٪ */
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transform: translateY(-5px);
         }
@@ -120,7 +120,7 @@
                 </div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">به سرویس معین vpn خوش آمدی!</h2>
                 <p class="text-gray-600 mb-6 leading-relaxed">
-                    اتی دروازه ی ورود به اینترنت آزادن   .
+                    اتی دروازه ی ورود به اینترنت آزادن.
                 </p>
                 <button onclick="closeWelcome()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
                     بزن بریم!
@@ -219,12 +219,12 @@
                     <h3 class="font-bold text-xl mb-2 text-white">لینک اشتراک</h3>
                     <p class="text-gray-300 text-sm">همه سرورون داخل همی لینکن</p>
                 </a>
-                <a href="#tools" class="card-glass rounded-3xl p-6 text-center ripple group">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
-                        <i class="fa-solid fa-toolbox text-3xl text-white"></i>
+                <a href="#exclusive-sub" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-rss text-3xl text-white"></i>
                     </div>
-                    <h3 class="font-bold text-xl mb-2 text-white">ابزارون </h3>
-                    <p class="text-gray-300 text-sm">تست پینگ و امنیت</p>
+                    <h3 class="font-bold text-xl mb-2 text-white">اشتراک اختصاصی</h3>
+                    <p class="text-gray-300 text-sm">کانفیگ‌های مخصوص نت شخصی</p>
                 </a>
                 <a href="#notifications" class="card-glass rounded-3xl p-6 text-center ripple group">
                     <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
@@ -252,6 +252,28 @@
                     <i class="fa-solid fa-copy ml-2"></i>
             اطی بزن لینک کپی ابو
                 </button>
+            </div>
+        </section>
+        
+        <section id="exclusive-sub" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-rss text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    اشتراک اختصاصی (نت شخصی)
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">برای دسترسی به کانفیگ‌های اختصاصی، شماره تماس خود را وارد کنید.</p>
+                
+                <div class="flex flex-col items-center">
+                    <input type="text" id="phoneInput" placeholder="مثال: 09121234567" class="w-full md:w-96 bg-black bg-opacity-20 rounded-xl p-4 mb-4 text-center text-white font-mono placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                    <button onclick="checkSubscription()" class="w-full md:w-96 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                        بررسی اشتراک
+                    </button>
+                </div>
+
+                <div id="exclusiveConfigResult" class="mt-8 text-center hidden">
+                    </div>
             </div>
         </section>
 
@@ -533,22 +555,32 @@
     <script>
         // --- CONFIGURATIONS ---
         const configs = {
-            cf_de_1: { name: 'VLESS - آلمان (CDN 1)', config: 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws' },
-            cf_de_2: { name: 'VLESS - آلمان (CDN 2)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FweIiUrqpwSQLUEGI%3Fed%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%202' },
-            cf_de_3: { name: 'VLESS - آلمان (CDN 3)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Fed%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
-            cf_de_4: { name: 'VLESS - آلمان (CDN 4)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FfNX3GzNxncCIIsf7%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%204' },
-            cf_de_tr_5: { name: 'Trojan - آلمان (CDN 5)', config: 'trojan://%3AbC5%5Elakx%3E%24d@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FtrULF8XIBg0I5upoFe%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fK31lnDM4w8uJ0yp1dRWlTdTdko6y-CU.pAGES.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%205' },
-            cf_de_tr_6: { name: 'Trojan - آلمان (CDN 6)', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrAF6D510tD4ptv2AR%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%206' },
-            cf_de_tr_7: { name: 'Trojan - آلمان (CDN 7)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2Ftrucd7RaARX7VGCRLn%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%207' },
-            cf_de_tr_8: { name: 'Trojan - آلمان (CDN 8)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.46.247:443?path=%2FtrSCnmRLkssMpXzgTT%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%208' },
-            cf_plus_1: { name: 'VLESS - آلمان (CDN 9)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FXHPTFMTFoBNv6IV6&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8UJ0yP1dRwlTDTDKo6y-cU.PaGeS.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%201' },
-            cf_plus_2: { name: 'VLESS - آلمان (CDN 10)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FkDPocrIW3Ice02v4&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lnDM4w8UJ0YP1dRWLtdtDKO6Y-cu.pages.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%202' },
-            cf_plus_3: { name: 'VLESS - آلمان (CDN 11)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FlaGekhA1Q1IhSqJe&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8uJ0Yp1drWlTdTdkO6Y-Cu.pages.deV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%203' },
-            cf_plus_4: { name: 'VLESS - آلمان (CDN 12)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FgL8gLANdh881Nj22&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%204' },
-            cf_plus_tr_5: { name: 'VLESS - آلمان (CDN 13)', config: 'vmess://eyJhZGQiOiIxODUuMTQzLjIzNC4yMDAiLCJhaWQiOiIwIiwiYWxwbiI6IiIsImZwIjoiIiwiaG9zdCI6InBheS56aWJhbC5pci5nZXR3YXkubWVyY2hlbmQuYW50ZW4uaXIuc3RyZWFtLmZhcnNpcGluZy5pciIsImlkIjoiNjdjODIwZDktZDNjNS00YzFjLWE1Y2MtM2NjMzlkYzljMTBmIiwibmV0Ijoid3MiLCJwYXRoIjoiL3MyQlNwUDZ1VU9QUTQ5OXBocFlIODdUc1hsIiwicG9ydCI6IjQ0MyIsInBzIjoi8J+HqfCfh6pbUFJPXUdlcm1hbnlbTnVyZW1iZXJnXfCfjLUiLCJzY3kiOiJhdXRvIiwic25pIjoicGF5LnppYmFsLmlyLmdldHdheS5tZXJjaGVuZC5hbnRlbi5pci5zdHJlYW0uZmFyc2lwaW5nLmlyIiwidGxzIjoidGxzIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9' },
-            cf_plus_tr_6: { name: 'Trojan - آلمان (CDN 14)', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrmwnHKV1e9tS6xrWn&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lnDM4w8UJ0YP1dRWLtdtDKO6Y-cu.pages.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%206' },
-            cf_plus_tr_7: { name: 'Trojan - آلمان (CDN 15)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.46.247:443?path=%2FtrCa9HmRicRGuAse4M&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8uJ0Yp1drWlTdTdkO6Y-Cu.pages.deV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%207' },
-            cf_plus_tr_8: { name: 'Trojan - آلمان (CDN 16)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2FtrNs9G5VJ2vI0PxgP2&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%208' },
+            cf_de_1: { name: 'کانفیگ شماره 1', config: 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws' },
+            cf_de_2: { name: 'کانفیگ شماره 2', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FweIiUrqpwSQLUEGI%3Fed%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%202' },
+            cf_de_3: { name: 'کانفیگ شماره 3', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Fed%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
+            cf_de_4: { name: 'کانفیگ شماره 4', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FfNX3GzNxncCIIsf7%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%204' },
+            cf_de_tr_5: { name: 'کانفیگ شماره 5', config: 'trojan://%3AbC5%5Elakx%3E%24d@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FtrULF8XIBg0I5upoFe%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fK31lnDM4w8uJ0yp1dRWlTdTdko6y-CU.pAGES.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%205' },
+            cf_de_tr_6: { name: 'کانفیگ شماره 6', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrAF6D510tD4ptv2AR%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%206' },
+            cf_de_tr_7: { name: 'کانفیگ شماره 7', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2Ftrucd7RaARX7VGCRLn%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%207' },
+            cf_de_tr_8: { name: 'کانفیگ شماره 8', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.46.247:443?path=%2FtrSCnmRLkssMpXzgTT%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%208' },
+            cf_plus_1: { name: 'کانفیگ شماره 9', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FXHPTFMTFoBNv6IV6&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8UJ0yP1dRwlTDTDKo6y-cU.PaGeS.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%201' },
+            cf_plus_2: { name: 'کانفیگ شماره 10', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FkDPocrIW3Ice02v4&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lnDM4w8UJ0YP1dRWLtdtDKO6Y-cu.pages.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%202' },
+            cf_plus_3: { name: 'کانفیگ شماره 11', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FlaGekhA1Q1IhSqJe&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8uJ0Yp1drWlTdTdkO6Y-Cu.pages.deV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%203' },
+            cf_plus_4: { name: 'کانفیگ شماره 12', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FgL8gLANdh881Nj22&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%204' },
+            cf_plus_tr_5: { name: 'کانفیگ شماره 13', config: 'vmess://eyJhZGQiOiIxODUuMTQzLjIzNC4yMDAiLCJhaWQiOiIwIiwiYWxwbiI6IiIsImZwIjoiIiwiaG9zdCI6InBheS56aWJhbC5pci5nZXR3YXkubWVyY2hlbmQuYW50ZW4uaXIuc3RyZWFtLmZhcnNpcGluZy5pciIsImlkIjoiNjdjODIwZDktZDNjNS00YzFjLWE1Y2MtM2NjMzlkYzljMTBmIiwibmV0Ijoid3MiLCJwYXRoIjoiL3MyQlNwUDZ1VU9QUTQ5OXBocFlIODdUc1hsIiwicG9ydCI6IjQ0MyIsInBzIjoi8J+HqfCfh6pbUFJPXUdlcm1hbnlbTnVyZW1iZXJnXfCfjLUiLCJzY3kiOiJhdXRvIiwic25pIjoicGF5LnppYmFsLmlyLmdldHdheS5tZXJjaGVuZC5hbnRlbi5pci5zdHJlYW0uZmFyc2lwaW5nLmlyIiwidGxzIjoidGxzIiwidHlwZSI6Im5vbmUiLCJ2IjoiMiJ9' },
+            cf_plus_tr_6: { name: 'کانفیگ شماره 14', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrmwnHKV1e9tS6xrWn&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lnDM4w8UJ0YP1dRWLtdtDKO6Y-cu.pages.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%206' },
+            cf_plus_tr_7: { name: 'کانفیگ شماره 15', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.46.247:443?path=%2FtrCa9HmRicRGuAse4M&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8uJ0Yp1drWlTdTdkO6Y-Cu.pages.deV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%207' },
+            cf_plus_tr_8: { name: 'کانفیگ شماره 16', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2FtrNs9G5VJ2vI0PxgP2&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%208' },
+        };
+
+        // NEW: Exclusive subscription configurations
+        const exclusiveConfigs = {
+            '09123456789': {
+                config: 'vless://exclusive-config-for-personal-use@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN',
+                validFrom: '1404/05/01', // شمسی: 1 مرداد 1404
+                validUntil: '1404/06/31'  // شمسی: 31 شهریور 1404
+            },
+            // Add more phone numbers and configs here
         };
 
         const faqData = [
@@ -587,6 +619,103 @@
             
             getUserInfo();
         });
+
+        // Function to convert Persian date string (YYYY/MM/DD) to a Date object
+        function jalaliToGregorian(jDate) {
+            const [jYear, jMonth, jDay] = jDate.split('/').map(Number);
+            const moment = (jYear, jMonth, jDay) => {
+                let j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
+                let J_y = jYear;
+                let J_m = jMonth;
+                let J_d = jDay;
+                let j_len = 365.25;
+                let J_d_of_y = (J_m - 1) * 31;
+                if (J_m > 6) {
+                    J_d_of_y = (6 * 31) + (J_m - 7) * 30;
+                }
+                J_d_of_y += J_d;
+                let totalDays = J_d_of_y + ((J_y - 1) * 365) + Math.floor((J_y - 1) / 4);
+                let gYear = 1;
+                let g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                let g_len = 365.25;
+                let g_d_of_y = 0;
+                let isLeap = false;
+                let days = 0;
+                let g_m = 1;
+                let g_d = 1;
+
+                for (let i = 1; i <= J_y; i++) {
+                    days = 365 + (i % 4 === 1 ? 1 : 0);
+                    if (totalDays > days) {
+                        totalDays -= days;
+                        gYear++;
+                    }
+                }
+                
+                if (gYear % 4 === 0) g_days_in_month[1] = 29;
+
+                for (let i = 0; i < 12; i++) {
+                    if (totalDays > g_days_in_month[i]) {
+                        totalDays -= g_days_in_month[i];
+                        g_m++;
+                    } else {
+                        g_d = totalDays;
+                        break;
+                    }
+                }
+                return new Date(gYear, g_m - 1, g_d);
+            };
+            return moment(jYear, jMonth, jDay);
+        }
+
+        // NEW: Function to check subscription
+        function checkSubscription() {
+            const phoneInput = document.getElementById('phoneInput').value.trim();
+            const resultDiv = document.getElementById('exclusiveConfigResult');
+            const now = new Date();
+            const userConfig = exclusiveConfigs[phoneInput];
+            
+            resultDiv.innerHTML = '';
+            resultDiv.classList.add('hidden');
+
+            if (!userConfig) {
+                resultDiv.innerHTML = `
+                    <div class="mt-4 p-4 rounded-lg bg-red-500 bg-opacity-30 border border-red-500">
+                        <h4 class="font-bold text-red-300"><i class="fa-solid fa-exclamation-triangle ml-2"></i>شماره تماس یافت نشد!</h4>
+                        <p class="text-sm mt-2">لطفاً شماره تماس را به درستی وارد کنید یا برای خرید اشتراک با پشتیبانی تماس بگیرید.</p>
+                    </div>`;
+                resultDiv.classList.remove('hidden');
+                return;
+            }
+
+            const validFromDate = jalaliToGregorian(userConfig.validFrom);
+            const validUntilDate = jalaliToGregorian(userConfig.validUntil);
+
+            if (now >= validFromDate && now <= validUntilDate) {
+                resultDiv.innerHTML = `
+                    <div class="mt-4 p-4 rounded-lg bg-green-500 bg-opacity-30 border border-green-500">
+                        <h4 class="font-bold text-green-300"><i class="fa-solid fa-check-circle ml-2"></i>اشتراک شما معتبر است!</h4>
+                        <p class="text-sm mt-2">کانفیگ اختصاصی شما:</p>
+                        <div class="bg-black bg-opacity-20 rounded-xl p-3 mt-4 flex items-center justify-between">
+                            <p id="exclusiveConfig" class="font-mono text-center text-white text-sm break-all">${userConfig.config}</p>
+                            <button onclick="copyToClipboard(document.getElementById('exclusiveConfig').textContent, '✅ کانفیگ اختصاصی کپی شد!')" class="mr-2 text-white bg-green-600 hover:bg-green-700 p-2 rounded-lg ripple transition">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs mt-2 text-green-200">
+                            اعتبار از ${userConfig.validFrom} تا ${userConfig.validUntil}
+                        </p>
+                    </div>`;
+                resultDiv.classList.remove('hidden');
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="mt-4 p-4 rounded-lg bg-red-500 bg-opacity-30 border border-red-500">
+                        <h4 class="font-bold text-red-300"><i class="fa-solid fa-exclamation-triangle ml-2"></i>اشتراک شما منقضی شده است!</h4>
+                        <p class="text-sm mt-2">لطفاً برای تمدید اشتراک با پشتیبانی تماس بگیرید.</p>
+                    </div>`;
+                resultDiv.classList.remove('hidden');
+            }
+        }
 
         function updateServerStats() {
             const serviceStartDate = new Date('2023-01-01T00:00:00Z');
@@ -857,12 +986,4 @@
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateX(100%)';
-                setTimeout(() => notification.remove(), 500);
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+                notification.style.transition = 'opacity 0.5
