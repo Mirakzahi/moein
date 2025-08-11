@@ -120,7 +120,7 @@
                 </div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">به سرویس معین vpn خوش آمدی!</h2>
                 <p class="text-gray-600 mb-6 leading-relaxed">
-                   دروازه ورود به اینترنت آزاد.
+                    اتی دروازه ی ورود به اینترنت آزادن.
                 </p>
                 <button onclick="closeWelcome()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
                     بزن بریم!
@@ -153,7 +153,7 @@
                         </div>
                         <div class="text-center">
                             <div class="font-bold text-2xl mb-1 text-white" id="activeServers">24</div>
-                            <div class="text-blue-200 text-sm">سرورهای فعال</div>
+                            <div class="text-blue-200 text-sm">سرورون فعال</div>
                         </div>
                         <div class="text-center">
                             <div class="font-bold text-2xl mb-1 text-white" id="serverPing">--</div>
@@ -204,7 +204,7 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-xl text-white">اینستاگرام</h3>
-                        <p class="text-gray-300">جهت حمایت فالو کنید    </p>
+                        <p class="text-gray-300">کانالی برای شما عزیزان</p>
                     </div>
                 </a>
             </div>
@@ -217,7 +217,7 @@
                         <i class="fa-solid fa-link text-3xl text-white"></i>
                     </div>
                     <h3 class="font-bold text-xl mb-2 text-white">لینک اشتراک</h3>
-                    <p class="text-gray-300 text-sm">کانفیگ های رایگان را از این قسمت دریافت کنید </p>
+                    <p class="text-gray-300 text-sm">همه سرورون داخل همی لینکن</p>
                 </a>
                 <a href="#exclusive-sub" class="card-glass rounded-3xl p-6 text-center ripple group">
                     <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
@@ -230,8 +230,8 @@
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
                         <i class="fa-solid fa-toolbox text-3xl text-white"></i>
                     </div>
-                    <h3 class="font-bold text-xl mb-2 text-white">نرم افزار های کاربردی </h3>
-                    <p class="text-gray-300 text-sm">جهت اندروید و آی و اس </p>
+                    <h3 class="font-bold text-xl mb-2 text-white">ابزارون</h3>
+                    <p class="text-gray-300 text-sm">تست پینگ و امنیت</p>
                 </a>
             </div>
         </section>
@@ -244,13 +244,29 @@
                 <h2 class="text-3xl font-bold mb-4 text-white">
                     لینک اشتراک (Subscription)
                 </h2>
-                <p class="text-gray-300 text-lg mb-6">این لینک رو داخل نرم افزار هیدیفای وارد کنید و اتصال را بزنید . </p>
+                <p class="text-gray-300 text-lg mb-6">یه لینک داخل فیلترشکن خو وارد کنیی تا کانفیگ ون بصورت خوردکار بالا بیان. </p>
                 <div class="bg-black bg-opacity-20 rounded-xl p-4 mb-6 shadow-inner relative z-10">
                     <p id="subLink" class="font-mono text-center text-white font-bold text-sm md:text-lg break-all">https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt</p>
                 </div>
                 <button onclick="copySubLink()" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
                     <i class="fa-solid fa-copy ml-2"></i>
-                    برای کپی کردن ضربه بزنید 
+            اطی بزن لینک کپی ابو
+                </button>
+            </div>
+        </section>
+
+        <section id="daily-config" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-star text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    کانفیگ روز
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">هر روز یک کانفیگ قوی و جدید به صورت رایگان دریافت کنید.</p>
+                <button onclick="copyDailyConfig()" class="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    <i class="fa-solid fa-copy ml-2"></i>
+                    دریافت لینک
                 </button>
             </div>
         </section>
@@ -280,9 +296,9 @@
         <section id="notifications" class="animated-section container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4 text-white">
-                    آخرین اخبار و اطلاعیه‌ها
+                    آخرین اخبار و اطلاعیه‌ ون
                 </h2>
-                <p class="text-gray-300 text-lg">همیشه از آخرین تغییرات مطلع شوید  .</p>
+                <p class="text-gray-300 text-lg">همیشه ای آخرین تغییرات مطلع بح .</p>
             </div>
             <div class="max-w-3xl mx-auto timeline-container">
                 <div>
@@ -294,10 +310,11 @@
                         </div>
                         <div class="card-glass p-6 rounded-2xl w-full">
                             <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-bold text-lg text-blue-300"> برای اندروید هدیفای بهترین کلاینت است</h3>
+                                <h3 class="font-bold text-lg text-blue-300"> برای اندروید هدیفای بهترن</h3>
                                 <span class="text-xs text-gray-400 font-medium">امروز</span>
                             </div>
-                            <p class="text-gray-300">   برای آندروید نرم افزار هیدیفای رو از قسمت نرم افزار ها دانلود کنید و استفاده کنید 
+                            <p class="text-gray-300"> اگر اندروید داری ای قسمت کلاینت ون نرم افزار هیدیفای دانلود کن بعد بزن رو به اضافه داخل برنامه و بالا سمت چپ احتمالا ببو بعد برن رو اتصال .</p>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -309,10 +326,10 @@
                         </div>
                         <div class="card-glass p-6 rounded-2xl w-full">
                             <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-bold text-lg text-green-300">  سرور نیم‌بها رو با قیمت مناسب تهیه کنید </h3>
+                                <h3 class="font-bold text-lg text-green-300">۶ سرور نیم‌بها که اطور بال اکنن</h3>
                                 <span class="bg-yellow-200 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-full">ویژه</span>
                             </div>
-                            <p class="text-gray-300"> جهت راهنمایی بیشتر یا تهیه کانفیگ اختصاصی میتوانید با بخش پشتیبانی با ما در ارتباط باشید.</p>
+                            <p class="text-gray-300"> اگر سرور اختصاصی نیم بها تون خواست قسمت پشتیبانی ورشم پیام بدهیی.</p>
                         </div>
                     </div>
                 </div>
@@ -322,9 +339,9 @@
         <section id="download" class="animated-section container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4 text-white">
-                    دانلود نرم افزار ها
+                    دانلود کلاینت‌ ون
                 </h2>
-                <p class="text-gray-300 text-lg">نرم افزارهای مورد نیاز برای اتصال</p>
+                <p class="text-gray-300 text-lg">نرم افزارون مورد نیاز برای اتصال</p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
@@ -354,37 +371,37 @@
         <section id="tutorial" class="animated-section container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4 text-white">
-                    راهنمای اتصال در ۴ مرحله
+                    راهنمای اتصال تو ۴ مرحله
                 </h2>
-                <p class="text-gray-300 text-lg">به سادگی و در چند مرحله به سرویس آزاد متصل شوید </p>
+                <p class="text-gray-300 text-lg">به سادگی و تو چند دقیقه به اینترنت آزاد متصل بح</p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
                 <div class="flex flex-col items-center">
                     <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 text-white text-4xl font-bold shadow-lg mb-4">1</div>
                     <h3 class="text-xl font-bold mb-2">کپی لینک</h3>
                     <p class="text-gray-300">
-                        اول به <a href="#sublink" class="text-blue-400 font-semibold hover:underline">بخش لینک اشتراک</a> برو و لینک  رو کپی کن
+                        اول به <a href="#sublink" class="text-blue-400 font-semibold hover:underline">بخش لینک اشتراک</a> بره و لینک  کپی کن
                     </p>
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 text-white text-4xl font-bold shadow-lg mb-4">2</div>
                     <h3 class="text-xl font-bold mb-2">نصب کلاینت</h3>
                     <p class="text-gray-300">
-                        سپس از <a href="#download" class="text-blue-400 font-semibold hover:underline">بخش دانلود</a>،نرم  افزار مناسب سیستم‌عامل خود را  نصب کنید  
+                        بعد ای <a href="#download" class="text-blue-400 font-semibold hover:underline">بخش دانلود</a>، نرم افزار مناسب سیستم‌عامل خو  نصب کن
                     </p>
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 text-white text-4xl font-bold shadow-lg mb-4">3</div>
                     <h3 class="text-xl font-bold mb-2">اضافه کردن سرورون</h3>
                     <p class="text-gray-300">
-                        در نرم افزار، از قسمت اشتراک (Subscription)، لینکی کپی شده را وارد کن تا سرورها اضافه شوند
+                        تو نرم افزار، ای قسمت اشتراک (Subscription)، لینکی کپی ابو وارد کن تا سرورون اضافه بهن
                     </p>
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 text-white text-4xl font-bold shadow-lg mb-4">4</div>
                     <h3 class="text-xl font-bold mb-2">اتصال نهایی</h3>
                     <p class="text-gray-300">
-                         دکمه اتصال رو  بزن . از اینترنت آزاد لذت ببر!
+                        یه سرور  انتخاب کن و دکمه اتصال  بزن . ای اینترنت آزاد لذت ببر!
                     </p>
                 </div>
             </div>
@@ -449,12 +466,12 @@
     <footer class="pt-16 pb-8 relative overflow-hidden">
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-10">
-                <h2 class="text-4xl font-bold mb-2 text-white">معین  VPN</h2>
+                <h2 class="text-4xl font-bold mb-2 text-white">آزادی‌نت</h2>
                 <p class="text-blue-200">اینترنت آزاد برای همه، همیشه و همه‌جا</p>
             </div>
             <div class="border-t border-white border-opacity-20 pt-6 text-center text-blue-200 text-sm">
                 <p>
-                    © 1404 معین vpn - ساخته شده با ❤️ برای مردم جنوب
+                    © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
                 </p>
             </div>
         </div>
@@ -462,10 +479,12 @@
 
     <script>
         // --- CONFIGURATIONS ---
+        const dailyConfigLink = 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws';
+
         const configs = {
             cf_de_1: { name: 'VLESS - آلمان (CDN 1)', config: 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws' },
             cf_de_2: { name: 'VLESS - آلمان (CDN 2)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FweIiUrqpwSQLUEGI%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%202' },
-            cf_de_3: { name: 'VLESS - آلمان (CDN 3)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWlTDtDKo6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
+            cf_de_3: { name: 'VLESS - آلمان (CDN 3)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
             cf_de_4: { name: 'VLESS - آلمان (CDN 4)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FfNX3GzNxncCIIsf7%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%204' },
             cf_de_tr_5: { name: 'Trojan - آلمان (CDN 5)', config: 'trojan://%3AbC5%5Elakx%3E%24d@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FtrULF8XIBg0I5upoFe%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fK31lnDM4w8uJ0yp1dRWlTdTdko6y-CU.pAGES.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%205' },
             cf_de_tr_6: { name: 'Trojan - آلمان (CDN 6)', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrAF6D510tD4ptv2AR%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%206' },
@@ -474,9 +493,9 @@
         };
 
         const exclusiveConfigs = {
-            '09307916368': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
-            '09034171815': { name: 'زکیه اکبری فرد', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
-            '09384845261': { name: 'خان', config: 'vless://exclusive-config-for-personal-use-3@127.0.0.3:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-3' },
+            '09123456789': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
+            '09151112233': { name: 'علی احمدی', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
+            '09164445566': { name: 'سارا کریمی', config: 'vless://exclusive-config-for-personal-use-3@127.0.0.3:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-3' },
             '09177778899': { name: 'رضا حسینی', config: 'vless://exclusive-config-for-personal-use-4@127.0.0.4:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-4' },
             '09181234567': { name: 'فاطمه رضایی', config: 'vless://exclusive-config-for-personal-use-5@127.0.0.5:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-5' },
             '09199876543': { name: 'محمد قاسمی', config: 'vless://exclusive-config-for-personal-use-6@127.0.0.6:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-6' },
@@ -797,6 +816,11 @@
             const subLink = document.getElementById('subLink').textContent.trim();
             copyToClipboard(subLink, '✅ لینک اشتراک کپی شد!');
         }
+        
+        function copyDailyConfig() {
+            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
+        }
+
 
         function closeWelcome() {
             sessionStorage.setItem('azadiNetWelcomed', 'true');
@@ -829,5 +853,3 @@
     </script>
 </body>
 </html>
-
-
