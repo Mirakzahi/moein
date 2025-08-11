@@ -478,7 +478,6 @@
     </footer>
 
     <script>
-        // --- CONFIGURATIONS ---
         const dailyConfigLink = 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws';
 
         const configs = {
@@ -646,6 +645,11 @@
                 document.body.removeChild(textArea);
             }
         }
+
+        function copyDailyConfig() {
+            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
+        }
+
 
         function buildFAQ() {
             const container = document.getElementById('faq-container');
@@ -816,11 +820,6 @@
             const subLink = document.getElementById('subLink').textContent.trim();
             copyToClipboard(subLink, '✅ لینک اشتراک کپی شد!');
         }
-        
-        function copyDailyConfig() {
-            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
-        }
-
 
         function closeWelcome() {
             sessionStorage.setItem('azadiNetWelcomed', 'true');
