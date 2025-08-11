@@ -155,7 +155,7 @@
                         <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
                     </button>
                 </div>
-                </div>
+            </div>
             <div class="text-center mt-8">
                 <button onclick="saveConfigs()" class="bg-green-500 hover:bg-green-600 text-white py-3 px-8 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
                     ذخیره تغییرات
@@ -261,12 +261,12 @@
                     <h3 class="font-bold text-xl mb-2 text-white">اشتراک اختصاصی</h3>
                     <p class="text-gray-300 text-sm">کانفیگ‌های مخصوص نت شخصی</p>
                 </a>
-                <a href="#tools" class="card-glass rounded-3xl p-6 text-center ripple group">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
-                        <i class="fa-solid fa-toolbox text-3xl text-white"></i>
+                <a href="#daily-config" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-star text-3xl text-white"></i>
                     </div>
-                    <h3 class="font-bold text-xl mb-2 text-white">ابزارون</h3>
-                    <p class="text-gray-300 text-sm">تست پینگ و امنیت</p>
+                    <h3 class="font-bold text-xl mb-2 text-white">کانفیگ روز</h3>
+                    <p class="text-gray-300 text-sm">هر روز یک کانفیگ قوی</p>
                 </a>
             </div>
         </section>
@@ -290,22 +290,6 @@
             </div>
         </section>
 
-        <section id="daily-config" class="animated-section container mx-auto px-4">
-            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
-                <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                    <i class="fa-solid fa-star text-3xl text-white"></i>
-                </div>
-                <h2 class="text-3xl font-bold mb-4 text-white">
-                    کانفیگ روز
-                </h2>
-                <p class="text-gray-300 text-lg mb-6">هر روز یک کانفیگ قوی و جدید به صورت رایگان دریافت کنید.</p>
-                <button onclick="copyDailyConfig()" class="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
-                    <i class="fa-solid fa-copy ml-2"></i>
-                    دریافت لینک
-                </button>
-            </div>
-        </section>
-        
         <section id="exclusive-sub" class="animated-section container mx-auto px-4">
             <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
                 <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -325,6 +309,22 @@
 
                 <div id="exclusiveConfigResult" class="mt-8 text-center hidden">
                     </div>
+            </div>
+        </section>
+
+        <section id="daily-config" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-star text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    کانفیگ روز
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">هر روز یک کانفیگ قوی و جدید به صورت رایگان دریافت کنید.</p>
+                <button onclick="copyDailyConfig()" class="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    <i class="fa-solid fa-copy ml-2"></i>
+                    دریافت لینک
+                </button>
             </div>
         </section>
 
@@ -517,8 +517,6 @@
         const ADMIN_PASSWORD = 'moein'; 
         const dailyConfigLink = 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws';
 
-        let configs = {};
-
         let exclusiveConfigs = {
             '09123456789': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
             '09151112233': { name: 'علی احمدی', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
@@ -621,7 +619,7 @@
         }
 
         function logoutAdmin() {
-            document.getElementById('adminPanelLogin').classList.add('hidden');
+            document.getElementById('adminPanelLogin').classList.remove('hidden');
             document.getElementById('adminPanelContent').classList.add('hidden');
             document.getElementById('adminPassword').value = '';
         }
