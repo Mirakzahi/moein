@@ -500,6 +500,7 @@
                 <p class="text-blue-200">اینترنت آزاد برای همه، همیشه و همه‌جا</p>
             </div>
             <div class="border-t border-white border-opacity-20 pt-6 text-center text-blue-200 text-sm">
+                <button onclick="showAdminLogin()" class="text-sm text-blue-300 hover:underline">ورود به پنل مدیریت</button>
                 <p>
                     © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
                 </p>
@@ -591,7 +592,9 @@
             }
 
             buildFAQ();
+            buildConfigList();
             updateServerStats();
+            generateQR();
             setInterval(updateServerStats, 3000);
             
             const observer = new IntersectionObserver((entries) => {
@@ -608,6 +611,78 @@
             
             getUserInfo();
         });
+
+        function showAdminLogin() {
+            document.getElementById('adminPanelLogin').classList.remove('hidden');
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('adminPanelLogin').classList.add('hidden');
+                document.getElementById('adminPanelContent').classList.remove('hidden');
+                loadConfigsToAdminPanel();
+            } else {
+                alert('رمز عبور اشتباه است!');
+            }
+        }
+
+        function logoutAdmin() {
+            document.getElementById('adminPanelLogin').classList.remove('hidden');
+            document.getElementById('adminPanelContent').classList.add('hidden');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function loadConfigsToAdminPanel() {
+            const form = document.getElementById('adminConfigForm');
+            form.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
+                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
+                </div>
+            `;
+            for (const phone in exclusiveConfigs) {
+                const config = exclusiveConfigs[phone];
+                const itemHtml = `
+                    <div class="card-glass p-4 rounded-xl">
+                        <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
+                        <input type="text" data-key="phone" value="${phone}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
+                        <input type="text" data-key="name" value="${config.name}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <label class="block text-gray-400 text-sm mb-1">لینک کانفیگ</label>
+                        <textarea data-key="config" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500">${config.config}</textarea>
+                    </div>
+                `;
+                form.innerHTML += itemHtml;
+            }
+        }
+
+        function saveConfigs() {
+            const form = document.getElementById('adminConfigForm');
+            const newExclusiveConfigs = {};
+            let isError = false;
+
+            const configItems = form.querySelectorAll('.card-glass');
+            configItems.forEach(item => {
+                const phone = item.querySelector('input[data-key="phone"]').value.trim();
+                const name = item.querySelector('input[data-key="name"]').value.trim();
+                const config = item.querySelector('textarea[data-key="config"]').value.trim();
+
+                if (phone && name && config) {
+                    newExclusiveConfigs[phone] = { name, config };
+                } else {
+                    isError = true;
+                }
+            });
+
+            if (isError) {
+                showNotification('لطفاً همه فیلدها را پر کنید.', 'error');
+            } else {
+                exclusiveConfigs = newExclusiveConfigs;
+                showNotification('تغییرات با موفقیت ذخیره شد!', 'success');
+                loadConfigsToAdminPanel(); // Refresh the form with new data
+            }
+        }
 
         function checkSubscription() {
             const phoneInput = document.getElementById('phoneInput').value.trim();
@@ -884,11 +959,6 @@
             const subLink = document.getElementById('subLink').textContent.trim();
             copyToClipboard(subLink, '✅ لینک اشتراک کپی شد!');
         }
-        
-        function copyDailyConfig() {
-            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
-        }
-
 
         function closeWelcome() {
             sessionStorage.setItem('azadiNetWelcomed', 'true');
