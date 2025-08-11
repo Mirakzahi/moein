@@ -4,105 +4,807 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معین وی پی ان- سرویس VPN حرفه‌ای و رایگان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'vazir': ['Vazirmatn', 'Tahoma', 'Arial', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'pulse-fast': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'gradient-bg': 'gradient-bg 15s ease infinite',
+                    },
+                    keyframes: {
+                        fadeIn: { 'from': { opacity: 0 }, 'to': { opacity: 1 } },
+                        slideUp: {
+                            'from': { transform: 'translateY(30px)', opacity: 0 },
+                            'to': { transform: 'translateY(0)', opacity: 1 }
+                        },
+                        'gradient-bg': {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
             line-height: 1.6;
+            scroll-behavior: smooth;
             background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
             background-size: 400% 400%;
             animation: gradient-bg 15s ease infinite;
             color: white;
-            padding: 2rem;
-            text-align: center;
         }
-        @keyframes gradient-bg {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .card {
+        .card-glass {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
         }
-        h1, h2, h3 {
-            font-weight: bold;
-            margin-bottom: 1rem;
+        .card-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
         }
-        p {
-            margin-bottom: 1rem;
+        .status-online {
+            background: #10b981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+            animation: pulse-fast 2s infinite;
         }
-        .button {
-            background-color: #4a90e2;
-            color: white;
-            padding: 1rem 2rem;
+        .ripple { position: relative; overflow: hidden; }
+        .ripple::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 0; height: 0; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s;
+        }
+        .ripple:active::before { width: 300px; height: 300px; }
+        .timeline-item::before {
+            content: '';
+            background: rgba(255,255,255,0.2);
+            width: 3px;
+            height: 100%;
+            position: absolute;
+            right: 1.1rem;
+            top: 1.5rem;
+            z-index: 1;
+        }
+        .timeline-container > div:last-child .timeline-item::before {
+            display: none;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .animated-section {
+            opacity: 0;
+        }
+        /* Custom scrollbar for config list */
+        .config-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .config-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
             border-radius: 10px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-            transition: background-color 0.3s ease;
         }
-        .button:hover {
-            background-color: #357bd8;
+        .config-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
         }
-        .contact-links a {
-            color: #4a90e2;
-            text-decoration: none;
-            margin: 0 10px;
-            font-weight: bold;
+        .config-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen text-gray-200">
 
-    <div class="container">
-        <header class="card">
-            <h1>معین وی پی ان</h1>
-            <p>سرویس VPN حرفه‌ای و رایگان</p>
-        </header>
-
-        <section class="card">
-            <h2>لینک اشتراک</h2>
-            <p>از لینک زیر برای دریافت کانفیگ‌ها استفاده کنید.</p>
-            <a href="https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt" class="button">دریافت لینک</a>
-        </section>
-
-        <section class="card">
-            <h2>کانفیگ روز</h2>
-            <p>هر روز یک کانفیگ قوی و جدید دریافت کنید.</p>
-            <a href="#" class="button">دریافت لینک</a>
-        </section>
-
-        <section class="card">
-            <h2>اشتراک اختصاصی</h2>
-            <p>برای دسترسی به کانفیگ‌های مخصوص، شماره تماس خود را وارد کنید.</p>
-            <form action="#" method="post">
-                <input type="text" placeholder="مثال: 09121234567" style="width: 80%; padding: 10px; border-radius: 5px; border: none;">
-                <button type="submit" class="button">بررسی اشتراک</button>
-            </form>
-        </section>
-        
-        <section class="card">
-            <h2>راهنمای اتصال</h2>
-            <p>به سادگی و در چند مرحله به اینترنت آزاد متصل شوید.</p>
-        </section>
-
-        <footer class="card">
-            <p class="contact-links">
-                <a href="https://wa.me/+989307916368" target="_blank">پشتیبانی واتساپ</a>
-                <a href="https://www.instagram.com/mirakzahi/" target="_blank">اینستاگرام</a>
-            </p>
-            <p>
-                © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
-            </p>
-        </footer>
+    <div id="welcomeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <span class="text-3xl">🎉</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">به سرویس معین vpn خوش آمدی!</h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    اتی دروازه ی ورود به اینترنت آزادن.
+                </p>
+                <button onclick="closeWelcome()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
+                    بزن بریم!
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="adminPanelLogin" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border text-gray-900">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold mb-4">ورود به پنل مدیریت</h2>
+                <p class="text-sm text-gray-600 mb-6">رمز عبور مدیریتی را وارد کنید.</p>
+                <input type="password" id="adminPassword" placeholder="رمز عبور" class="w-full bg-gray-200 rounded-xl p-3 mb-4 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button onclick="loginAdmin()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
+                    ورود
+                </button>
+            </div>
+        </div>
     </div>
 
+    <div id="adminPanelContent" class="hidden fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md overflow-y-auto z-50 p-4 animate-fade-in">
+        <div class="card-glass rounded-3xl p-8 max-w-xl w-full mx-auto my-10">
+            <h2 class="text-3xl font-bold mb-6 text-center text-white">پنل مدیریت کانفیگ‌ها</h2>
+            <div id="adminConfigForm" class="space-y-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
+                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
+                </div>
+                <div class="card-glass p-4 rounded-xl text-center">
+                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
+                    </button>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <button onclick="saveConfigs()" class="bg-green-500 hover:bg-green-600 text-white py-3 px-8 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    ذخیره تغییرات
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header class="py-20 relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center animate-fade-in">
+                <div class="flex items-center justify-center mb-10">
+                    <div class="card-glass rounded-3xl flex items-center justify-center w-24 h-24 ml-6 shadow-2xl">
+                        <span class="text-4xl text-white">🚀</span>
+                    </div>
+                    <div>
+                        <h1 class="text-5xl md:text-6xl font-black mb-3 text-white">معین vpn </h1>
+                        <p class="text-blue-200 text-lg md:text-xl font-medium">سرویس VPN حرفه‌ای و رایگان</p>
+                    </div>
+                </div>
+                
+                <div class="card-glass rounded-3xl p-6 md:p-8 inline-block shadow-2xl mb-6">
+                    <div class="grid grid-cols-3 gap-4 md:gap-8">
+                        <div class="text-center">
+                            <div class="flex items-center justify-center mb-3">
+                                <div class="w-3 h-3 status-online rounded-full ml-2"></div>
+                                <div class="font-bold text-lg text-gray-100">وضعیت</div>
+                            </div>
+                            <div class="text-blue-200 text-sm font-mono">آپتایم: <span id="uptime" class="font-semibold">--</span>%</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-bold text-2xl mb-1 text-white" id="activeServers">24</div>
+                            <div class="text-blue-200 text-sm">سرورون فعال</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-bold text-2xl mb-1 text-white" id="serverPing">--</div>
+                            <div class="text-blue-200 text-sm">پینگ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-glass rounded-3xl p-6 md:p-8 inline-block shadow-2xl max-w-2xl w-full">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-wifi text-blue-300 text-2xl mb-3"></i>
+                            <h3 class="text-gray-300 text-sm font-bold mb-1">آدرس IP شما</h3>
+                            <p id="user-ip" class="font-mono text-white font-semibold animate-pulse">در حال بارگذارین...</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-location-dot text-green-300 text-2xl mb-3"></i>
+                            <h3 class="text-gray-300 text-sm font-bold mb-1">موقعیت مکانی</h3>
+                            <p id="user-location" class="font-mono text-white font-semibold animate-pulse">در حال بارگذارین...</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-building text-purple-300 text-2xl mb-3"></i>
+                            <h3 class="text-gray-300 text-sm font-bold mb-1">سرویس‌دهنده</h3>
+                            <p id="user-isp" class="font-mono text-white font-semibold animate-pulse">در حال بارگذارین...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="space-y-16 md:space-y-24 pb-16">
+
+        <section class="animated-section container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                <a href="https://wa.me/+989307916368" target="_blank" class="card-glass rounded-2xl p-6 flex items-center space-x-4 space-x-reverse group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-lime-600 rounded-full flex items-center justify-center text-3xl text-white shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl text-white">پشتیبانی واتساپ</h3>
+                        <p class="text-gray-300">ارتباط مستقیم و پشتیبانی</p>
+                    </div>
+                </a>
+                <a href="https://www.instagram.com/mirakzahi/" target="_blank" class="card-glass rounded-2xl p-6 flex items-center space-x-4 space-x-reverse group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-3xl text-white shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl text-white">اینستاگرام</h3>
+                        <p class="text-gray-300">کانالی برای شما عزیزان</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="relative z-20 container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <a href="#sublink" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-link text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-white">لینک اشتراک</h3>
+                    <p class="text-gray-300 text-sm">همه سرورون داخل همی لینکن</p>
+                </a>
+                <a href="#exclusive-sub" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-rss text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-white">اشتراک اختصاصی</h3>
+                    <p class="text-gray-300 text-sm">کانفیگ‌های مخصوص نت شخصی</p>
+                </a>
+                <a href="#daily-config" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-star text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-white">کانفیگ روز</h3>
+                    <p class="text-gray-300 text-sm">هر روز یک کانفیگ قوی</p>
+                </a>
+            </div>
+        </section>
+
+        <section id="sublink" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-link text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    لینک اشتراک (Subscription)
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">یه لینک داخل فیلترشکن خو وارد کنیی تا کانفیگ ون بصورت خوردکار بالا بیان. </p>
+                <div class="bg-black bg-opacity-20 rounded-xl p-4 mb-6 shadow-inner relative z-10">
+                    <p id="subLink" class="font-mono text-center text-white font-bold text-sm md:text-lg break-all">https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt</p>
+                </div>
+                <button onclick="copySubLink()" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    <i class="fa-solid fa-copy ml-2"></i>
+            اطی بزن لینک کپی ابو
+                </button>
+            </div>
+        </section>
+
+        <section id="exclusive-sub" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-rss text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    اشتراک اختصاصی (نت شخصی)
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">برای دسترسی به کانفیگ‌های اختصاصی، شماره تماس خود را وارد کنید.</p>
+                
+                <div class="flex flex-col items-center">
+                    <input type="text" id="phoneInput" placeholder="مثال: 09121234567" class="w-full md:w-96 bg-black bg-opacity-20 rounded-xl p-4 mb-4 text-center text-white font-mono placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                    <button onclick="checkSubscription()" class="w-full md:w-96 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                        بررسی اشتراک
+                    </button>
+                </div>
+
+                <div id="exclusiveConfigResult" class="mt-8 text-center hidden">
+                    </div>
+            </div>
+        </section>
+        
+        <section id="daily-config" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-star text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    کانفیگ روز
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">هر روز یک کانفیگ قوی و جدید به صورت رایگان دریافت کنید.</p>
+                <button onclick="copyDailyConfig()" class="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    <i class="fa-solid fa-copy ml-2"></i>
+                    دریافت لینک
+                </button>
+            </div>
+        </section>
+
+        <section id="notifications" class="animated-section container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-white">
+                    آخرین اخبار و اطلاعیه‌ ون
+                </h2>
+                <p class="text-gray-300 text-lg">همیشه ای آخرین تغییرات مطلع بح .</p>
+            </div>
+            <div class="max-w-3xl mx-auto timeline-container">
+                <div>
+                    <div class="timeline-item relative flex items-start space-x-6 space-x-reverse pb-8">
+                        <div class="flex-shrink-0 z-10">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 text-white shadow-md">
+                                <i class="fa-solid fa-cloud"></i>
+                            </span>
+                        </div>
+                        <div class="card-glass p-6 rounded-2xl w-full">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-lg text-blue-300"> برای اندروید هدیفای بهترن</h3>
+                                <span class="text-xs text-gray-400 font-medium">امروز</span>
+                            </div>
+                            <p class="text-gray-300"> اگر اندروید داری ای قسمت کلاینت ون نرم افزار هیدیفای دانلود کن بعد بزن رو به اضافه داخل برنامه و بالا سمت چپ احتمالا ببو بعد برن رو اتصال .</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="timeline-item relative flex items-start space-x-6 space-x-reverse pb-8">
+                        <div class="flex-shrink-0 z-10">
+                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white shadow-md">
+                                <i class="fa-solid fa-gamepad"></i>
+                            </span>
+                        </div>
+                        <div class="card-glass p-6 rounded-2xl w-full">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-lg text-green-300">۶ سرور نیم‌بها که اطور بال اکنن</h3>
+                                <span class="bg-yellow-200 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded-full">ویژه</span>
+                            </div>
+                            <p class="text-gray-300"> اگر سرور اختصاصی نیم بها تون خواست قسمت پشتیبانی ورشم پیام بدهیی.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="download" class="animated-section container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-white">
+                    دانلود کلاینت‌ ون
+                </h2>
+                <p class="text-gray-300 text-lg">نرم افزارون مورد نیاز برای اتصال</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" class="card-glass rounded-2xl p-6 group text-center">
+                    <i class="fa-brands fa-android text-5xl text-green-400 mb-4"></i>
+                    <h3 class="font-bold text-xl text-white">اندروید</h3>
+                    <p class="text-green-300 font-semibold mt-2">V2RayNG</p>
+                </a>
+                <a href="https://apps.apple.com/app/streisand/id6450534064" target="_blank" class="card-glass rounded-2xl p-6 group text-center">
+                    <i class="fa-brands fa-apple text-5xl text-gray-300 mb-4"></i>
+                    <h3 class="font-bold text-xl text-white">iOS</h3>
+                    <p class="text-gray-200 font-semibold mt-2">Streisand</p>
+                </a>
+                <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="card-glass rounded-2xl p-6 group text-center">
+                    <i class="fa-brands fa-windows text-5xl text-blue-400 mb-4"></i>
+                    <h3 class="font-bold text-xl text-white">ویندوز</h3>
+                    <p class="text-blue-300 font-semibold mt-2">v2rayN</p>
+                </a>
+                <a href="https://github.com/hiddify/hiddify-next/releases" target="_blank" class="card-glass rounded-2xl p-6 group text-center">
+                    <i class="fa-brands fa-apple text-5xl text-gray-400 mb-4"></i>
+                    <h3 class="font-bold text-xl text-white">macOS</h3>
+                    <p class="text-gray-300 font-semibold mt-2">Hiddify Next</p>
+                </a>
+            </div>
+        </section>
+
+        <section id="tutorial" class="animated-section container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-white">
+                    راهنمای اتصال تو ۴ مرحله
+                </h2>
+                <p class="text-gray-300 text-lg">به سادگی و تو چند دقیقه به اینترنت آزاد متصل بح</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 text-white text-4xl font-bold shadow-lg mb-4">1</div>
+                    <h3 class="text-xl font-bold mb-2">کپی لینک</h3>
+                    <p class="text-gray-300">
+                        اول به <a href="#sublink" class="text-blue-400 font-semibold hover:underline">بخش لینک اشتراک</a> بره و لینک  کپی کن
+                    </p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 text-white text-4xl font-bold shadow-lg mb-4">2</div>
+                    <h3 class="text-xl font-bold mb-2">نصب کلاینت</h3>
+                    <p class="text-gray-300">
+                        بعد ای <a href="#download" class="text-blue-400 font-semibold hover:underline">بخش دانلود</a>، نرم افزار مناسب سیستم‌عامل خو  نصب کن
+                    </p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 text-white text-4xl font-bold shadow-lg mb-4">3</div>
+                    <h3 class="text-xl font-bold mb-2">اضافه کردن سرورون</h3>
+                    <p class="text-gray-300">
+                        تو نرم افزار، ای قسمت اشتراک (Subscription)، لینکی کپی ابو وارد کن تا سرورون اضافه بهن
+                    </p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 text-white text-4xl font-bold shadow-lg mb-4">4</div>
+                    <h3 class="text-xl font-bold mb-2">اتصال نهایی</h3>
+                    <p class="text-gray-300">
+                        یه سرور  انتخاب کن و دکمه اتصال  بزن . ای اینترنت آزاد لذت ببر!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="animated-section container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-white">
+                    سوالات متداول
+                </h2>
+                <p class="text-gray-300 text-lg">پاسخ به پرسش‌ون رایج شما</p>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-4" id="faq-container">
+                </div>
+        </section>
+
+        <section id="troubleshooting" class="animated-section container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 bg-clip-text text-transparent">
+                    عیب‌یابی هوشمند
+                </h2>
+                <p class="text-gray-300 text-lg">مشکلات احتمالی و راه‌حل‌های سریع</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="card-glass rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-red-500 bg-opacity-20 text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                        <i class="fa-solid fa-wifi-slash"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">وصل نمی‌شود؟</h3>
+                    <ul class="text-gray-300 space-y-3 text-right">
+                        <li class="flex items-start"><i class="fa-solid fa-cloud-arrow-down text-blue-400 ml-2 mt-1 w-5 text-center"></i>ابتدا لینک اشتراک را آپدیت کنید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-network-wired text-yellow-400 ml-2 mt-1 w-5 text-center"></i>اتصال اینترنت خود را چک کنید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-server text-purple-400 ml-2 mt-1 w-5 text-center"></i>یک سرور دیگر را امتحان کنید.</li>
+                    </ul>
+                </div>
+                <div class="card-glass rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-orange-500 bg-opacity-20 text-orange-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                        <i class="fa-solid fa-gauge-simple-low"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">سرعت پایین است؟</h3>
+                    <ul class="text-gray-300 space-y-3 text-right">
+                        <li class="flex items-start"><i class="fa-solid fa-bolt text-yellow-400 ml-2 mt-1 w-5 text-center"></i>به بخش تست سرعت مراجعه کنید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-signal text-green-400 ml-2 mt-1 w-5 text-center"></i>به سروری با پینگ پایین‌تر متصل شوید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-window-close text-red-400 ml-2 mt-1 w-5 text-center"></i>برنامه‌های پرمصرف اینترنت را ببندید.</li>
+                    </ul>
+                </div>
+                <div class="card-glass rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-blue-500 bg-opacity-20 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">هنوز مشکل دارید؟</h3>
+                    <ul class="text-gray-300 space-y-3 text-right">
+                        <li class="flex items-start"><i class="fa-solid fa-arrow-up-from-bracket text-sky-400 ml-2 mt-1 w-5 text-center"></i>مطمئن شوید از آخرین نسخه کلاینت استفاده می‌کنید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-power-off text-red-400 ml-2 mt-1 w-5 text-center"></i>یک بار دستگاه خود را ری‌استارت کنید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-headset text-green-400 ml-2 mt-1 w-5 text-center"></i>با <a href="https://t.me/itsthemoein" class="text-blue-400 font-semibold">پشتیبانی</a> در ارتباط باشید.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <footer class="pt-16 pb-8 relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-bold mb-2 text-white">آزادی‌نت</h2>
+                <p class="text-blue-200">اینترنت آزاد برای همه، همیشه و همه‌جا</p>
+            </div>
+            <div class="border-t border-white border-opacity-20 pt-6 text-center text-blue-200 text-sm">
+                <button onclick="showAdminLogin()" class="text-sm text-blue-300 hover:underline">ورود به پنل مدیریت</button>
+                <p>
+                    © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const ADMIN_PASSWORD = 'moein'; 
+        const dailyConfigLink = 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws';
+
+        let exclusiveConfigs = {
+            '09123456789': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
+            '09151112233': { name: 'علی احمدی', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
+            '09164445566': { name: 'سارا کریمی', config: 'vless://exclusive-config-for-personal-use-3@127.0.0.3:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-3' },
+            '09177778899': { name: 'رضا حسینی', config: 'vless://exclusive-config-for-personal-use-4@127.0.0.4:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-4' },
+            '09181234567': { name: 'فاطمه رضایی', config: 'vless://exclusive-config-for-personal-use-5@127.0.0.5:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-5' },
+            '09199876543': { name: 'محمد قاسمی', config: 'vless://exclusive-config-for-personal-use-6@127.0.0.6:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-6' },
+            '09211357924': { name: 'زهرا یوسفی', config: 'vless://exclusive-config-for-personal-use-7@127.0.0.7:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-7' },
+            '09224681357': { name: 'حسین محمدی', config: 'vless://exclusive-config-for-personal-use-8@127.0.0.8:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-8' },
+            '09301239876': { name: 'مریم نوری', config: 'vless://exclusive-config-for-personal-use-9@127.0.0.9:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-9' },
+            '09335552211': { name: 'امیر ابراهیمی', config: 'vless://exclusive-config-for-personal-use-10@127.0.0.10:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-10' },
+            '09351020304': { name: 'لیلا بهرامی', config: 'vless://exclusive-config-for-personal-use-11@127.0.0.11:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-11' },
+            '09364567890': { name: 'مهدی هاشمی', config: 'vless://exclusive-config-for-personal-use-12@127.0.0.12:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-12' },
+            '09378901234': { name: 'نگین صفری', config: 'vless://exclusive-config-for-personal-use-13@127.0.0.13:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-13' },
+            '09381122334': { name: 'جواد علوی', config: 'vless://exclusive-config-for-personal-use-14@127.0.0.14:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-14' },
+            '09395566778': { name: 'نازنین احمدی', config: 'vless://exclusive-config-for-personal-use-15@127.0.0.15:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-15' },
+            '09902345678': { name: 'سامان یعقوبی', config: 'vless://exclusive-config-for-personal-use-16@127.0.0.16:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-16' },
+            '09917890123': { name: 'هانیه کریمی', config: 'vless://exclusive-config-for-personal-use-17@127.0.0.17:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-17' },
+            '09923456789': { name: 'کاوه ناصری', config: 'vless://exclusive-config-for-personal-use-18@127.0.0.18:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-18' },
+            '09930123456': { name: 'نیلوفر مهرابی', config: 'vless://exclusive-config-for-personal-use-19@127.0.0.19:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-19' },
+            '09941122334': { name: 'سجاد حسینی', config: 'vless://exclusive-config-for-personal-use-20@127.0.0.20:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-20' },
+            '09955678901': { name: 'پریسا قاسمی', config: 'vless://exclusive-config-for-personal-use-21@127.0.0.21:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-21' },
+            '09968765432': { name: 'بهنام یوسفی', config: 'vless://exclusive-config-for-personal-use-22@127.0.0.22:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-22' },
+            '09971239876': { name: 'مهتاب نوری', config: 'vless://exclusive-config-for-personal-use-23@127.0.0.23:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-23' },
+            '09983451278': { name: 'پرهام موسوی', config: 'vless://exclusive-config-for-personal-use-24@127.0.0.24:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-24' },
+            '09101231234': { name: 'رها محمدی', config: 'vless://exclusive-config-for-personal-use-25@127.0.0.25:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-25' },
+            '09112342345': { name: 'امید علوی', config: 'vless://exclusive-config-for-personal-use-26@127.0.0.26:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-26' },
+            '09124567890': { name: 'سحر کریمی', config: 'vless://exclusive-config-for-personal-use-27@127.0.0.27:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-27' },
+            '09137890123': { name: 'کمال نادری', config: 'vless://exclusive-config-for-personal-use-28@127.0.0.28:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-28' },
+            '09141112223': { name: 'مونا یوسفی', config: 'vless://exclusive-config-for-personal-use-29@127.0.0.29:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-29' },
+            '09153334445': { name: 'بهزاد رستمی', config: 'vless://exclusive-config-for-personal-use-30@127.0.0.30:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-30' },
+            '09165556667': { name: 'الهام سهرابی', config: 'vless://exclusive-config-for-personal-use-31@127.0.0.31:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-31' },
+            '09177891234': { name: 'پیمان مهرآبادی', config: 'vless://exclusive-config-for-personal-use-32@127.0.0.32:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-32' },
+            '09181235678': { name: 'روناک احمدیان', config: 'vless://exclusive-config-for-personal-use-33@127.0.0.33:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-33' },
+            '09199871234': { name: 'آرش قاسمی', config: 'vless://exclusive-config-for-personal-use-34@127.0.0.34:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-34' },
+            '09214567890': { name: 'نسرین یوسفی', config: 'vless://exclusive-config-for-personal-use-35@127.0.0.35:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-35' },
+            '09228765432': { name: 'کیهان رضایی', config: 'vless://exclusive-config-for-personal-use-36@127.0.0.36:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-36' },
+            '09301112233': { name: 'مونا یزدانی', config: 'vless://exclusive-config-for-personal-use-37@127.0.0.37:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-37' },
+            '09334445566': { name: 'فریدون زارعی', config: 'vless://exclusive-config-for-personal-use-38@127.0.0.38:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-38' },
+            '09356667788': { name: 'رویا حسنی', config: 'vless://exclusive-config-for-personal-use-39@127.0.0.39:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-39' },
+            '09361234567': { name: 'حمیدرضا نجفی', config: 'vless://exclusive-config-for-personal-use-40@127.0.0.40:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-40' },
+            '09374567890': { name: 'نازلی سلطانی', config: 'vless://exclusive-config-for-personal-use-41@127.0.0.41:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-41' },
+            '09385556667': { name: 'کاظم امینی', config: 'vless://exclusive-config-for-personal-use-42@127.0.0.42:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-42' },
+            '09399876543': { name: 'محبوبه شریفی', config: 'vless://exclusive-config-for-personal-use-43@127.0.0.43:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-43' },
+            '09903456789': { name: 'علی‌اکبر کرمی', config: 'vless://exclusive-config-for-personal-use-44@127.0.0.44:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-44' },
+            '09916789012': { name: 'سحر محمودی', config: 'vless://exclusive-config-for-personal-use-45@127.0.0.45:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-45' },
+            '09924567890': { name: 'مهدیار توکلی', config: 'vless://exclusive-config-for-personal-use-46@127.0.0.46:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-46' },
+            '09930112233': { name: 'پگاه فراهانی', config: 'vless://exclusive-config-for-personal-use-47@127.0.0.47:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-47' },
+            '09945566778': { name: 'یوسف هاشمی', config: 'vless://exclusive-config-for-personal-use-48@127.0.0.48:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-48' },
+            '09951239876': { name: 'آتنا یزدانی', config: 'vless://exclusive-config-for-personal-use-49@127.0.0.49:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-49' },
+            '09968765431': { name: 'سهراب زارعی', config: 'vless://exclusive-config-for-personal-use-50@127.0.0.50:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-50' },
+        };
+
+        const faqData = [
+            { question: "آیا این سرویس رایگان است؟", answer: "بله، سرویس آزادی‌نت کاملاً رایگان است و همیشه رایگان باقی خواهد ماند. هدف ما فراهم کردن دسترسی آزاد به اینترنت برای همه است." },
+            { question: "چرا گاهی سرعت کم می‌شود؟", answer: "کاهش سرعت می‌تواند به دلیل شلوغی سرور در ساعات اوج مصرف یا اختلالات شبکه اینترنت شما باشد. پیشنهاد می‌کنیم سرور دیگری را امتحان کنید یا در زمان دیگری متصل شوید." },
+            { question: "آیا استفاده از VPN امن است؟", answer: "بله، ما از آخرین پروتکل‌های رمزنگاری برای حفاظت از اطلاعات شما استفاده می‌کنیم. ترافیک شما کاملاً امن و غیرقابل ردیابی است." },
+            { question: "چگونه می‌توانم سرعت را بهبود دهم؟", answer: "برای بهترین سرعت، سروری را انتخاب کنید که از نظر جغرافیایی به شما نزدیک‌تر است. همچنین، بستن برنامه‌های اضافی که از اینترنت استفاده می‌کنند می‌تواند به بهبود سرعت کمک کند." },
+            { question: "اگر سرور قطع شود چه کنم؟", answer: "کافیست از لیست سرورها، یک سرور دیگر را انتخاب و متصل شوید. ما چندین سرور فعال برای اطمینان از پایداری سرویس داریم." },
+            { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از آزادی‌نت روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
+        ];
+
+        // --- CORE FUNCTIONS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!sessionStorage.getItem('azadiNetWelcomed')) {
+                document.getElementById('welcomeModal').classList.remove('hidden');
+            }
+            buildFAQ();
+            updateServerStats();
+            setInterval(updateServerStats, 3000);
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animated-section').forEach(section => {
+                observer.observe(section);
+            });
+            
+            getUserInfo();
+        });
+
+        function showAdminLogin() {
+            document.getElementById('adminPanelLogin').classList.remove('hidden');
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('adminPanelLogin').classList.add('hidden');
+                document.getElementById('adminPanelContent').classList.remove('hidden');
+                loadConfigsToAdminPanel();
+            } else {
+                alert('رمز عبور اشتباه است!');
+            }
+        }
+
+        function logoutAdmin() {
+            document.getElementById('adminPanelLogin').classList.remove('hidden');
+            document.getElementById('adminPanelContent').classList.add('hidden');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function loadConfigsToAdminPanel() {
+            const form = document.getElementById('adminConfigForm');
+            form.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
+                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
+                </div>
+                <div class="card-glass p-4 rounded-xl text-center">
+                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
+                    </button>
+                </div>
+            `;
+            for (const phone in exclusiveConfigs) {
+                const config = exclusiveConfigs[phone];
+                const itemHtml = `
+                    <div class="card-glass p-4 rounded-xl relative">
+                        <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
+                        <input type="text" data-key="phone" value="${phone}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
+                        <input type="text" data-key="name" value="${config.name}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <label class="block text-gray-400 text-sm mb-1">لینک کانفیگ</label>
+                        <textarea data-key="config" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500">${config.config}</textarea>
+                    </div>
+                `;
+                form.innerHTML += itemHtml;
+            }
+        }
+        
+        function addConfigField() {
+            const form = document.getElementById('adminConfigForm');
+            const newFieldHtml = `
+                <div class="card-glass p-4 rounded-xl relative">
+                    <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
+                    <input type="text" data-key="phone" placeholder="مثال: 09121234567" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
+                    <input type="text" data-key="name" placeholder="مثال: علی احمدی" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <label class="block text-gray-400 text-sm mb-1">لینک کانفیگ</label>
+                    <textarea data-key="config" placeholder="لینک VLESS, VMESS, Trojan" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+                </div>
+            `;
+            form.innerHTML += newFieldHtml;
+        }
+
+        function removeConfigField(button) {
+            button.closest('.card-glass').remove();
+        }
+
+        function saveConfigs() {
+            const form = document.getElementById('adminConfigForm');
+            const newExclusiveConfigs = {};
+            let isError = false;
+
+            const configItems = form.querySelectorAll('.card-glass');
+            configItems.forEach(item => {
+                const phone = item.querySelector('input[data-key="phone"]').value.trim();
+                const name = item.querySelector('input[data-key="name"]').value.trim();
+                const config = item.querySelector('textarea[data-key="config"]').value.trim();
+
+                if (phone && name && config) {
+                    newExclusiveConfigs[phone] = { name, config };
+                } else {
+                    isError = true;
+                }
+            });
+
+            if (isError) {
+                showNotification('لطفاً همه فیلدها را پر کنید.', 'error');
+            } else {
+                exclusiveConfigs = newExclusiveConfigs;
+                showNotification('تغییرات با موفقیت ذخیره شد!', 'success');
+                loadConfigsToAdminPanel(); 
+            }
+        }
+
+        function checkSubscription() {
+            const phoneInput = document.getElementById('phoneInput').value.trim();
+            const resultDiv = document.getElementById('exclusiveConfigResult');
+            const userConfig = exclusiveConfigs[phoneInput];
+            
+            resultDiv.innerHTML = '';
+            resultDiv.classList.add('hidden');
+
+            if (userConfig) {
+                resultDiv.innerHTML = `
+                    <div class="mt-4 p-4 rounded-lg bg-green-500 bg-opacity-30 border border-green-500">
+                        <h4 class="font-bold text-green-300"><i class="fa-solid fa-check-circle ml-2"></i>شماره شما تایید شد!</h4>
+                        <p class="text-sm mt-2">کانفیگ اختصاصی برای **${userConfig.name}**:</p>
+                        <div class="bg-black bg-opacity-20 rounded-xl p-3 mt-4 flex items-center justify-between">
+                            <p id="exclusiveConfig" class="font-mono text-center text-white text-sm break-all">${userConfig.config}</p>
+                            <button onclick="copyToClipboard(document.getElementById('exclusiveConfig').textContent, '✅ کانفیگ اختصاصی کپی شد!')" class="mr-2 text-white bg-green-600 hover:bg-green-700 p-2 rounded-lg ripple transition">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>`;
+                resultDiv.classList.remove('hidden');
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="mt-4 p-4 rounded-lg bg-red-500 bg-opacity-30 border border-red-500">
+                        <h4 class="font-bold text-red-300"><i class="fa-solid fa-exclamation-triangle ml-2"></i>شماره تماس یافت نشد!</h4>
+                        <p class="text-sm mt-2">لطفاً شماره تماس را به درستی وارد کنید یا برای خرید اشتراک با پشتیبانی تماس بگیرید.</p>
+                    </div>`;
+                resultDiv.classList.remove('hidden');
+            }
+        }
+
+        function updateServerStats() {
+            const serviceStartDate = new Date('2023-01-01T00:00:00Z');
+            const totalDowntimeInSeconds = 2 * 3600; 
+            const now = new Date();
+            const totalTimeInSeconds = (now - serviceStartDate) / 1000;
+            const totalUptimeInSeconds = totalTimeInSeconds - totalDowntimeInSeconds;
+            const uptimePercentage = (totalUptimeInSeconds / totalTimeInSeconds) * 100;
+            document.getElementById('uptime').textContent = uptimePercentage.toFixed(4);
+
+            const basePing = 45;
+            const fluctuation = (Math.random() - 0.5) * 20;
+            const currentPing = Math.round(basePing + fluctuation);
+            document.getElementById('serverPing').textContent = currentPing + 'ms';
+        }
+        
+        async function copyToClipboard(text, message) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showNotification(message, 'success');
+            } catch (err) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showNotification(message, 'success');
+                } catch (err) {
+                    showNotification('خطا در کپی کردن!', 'error');
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function copyDailyConfig() {
+            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
+        }
+
+        function closeWelcome() {
+            sessionStorage.setItem('azadiNetWelcomed', 'true');
+            const modal = document.getElementById('welcomeModal');
+            modal.style.transition = 'opacity 0.3s ease';
+            modal.style.opacity = '0';
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function showNotification(message, type = 'success') {
+            const existing = document.querySelector('.notification-toast');
+            if(existing) existing.remove();
+
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const icon = type === 'success' ? '<i class="fa-solid fa-check-circle"></i>' : '<i class="fa-solid fa-times-circle"></i>';
+            
+            notification.className = `notification-toast fixed bottom-5 right-5 md:bottom-auto md:top-5 ${bgColor} text-white px-5 py-3 rounded-xl shadow-lg z-50 flex items-center space-x-3 space-x-reverse animate-fade-in`;
+            notification.innerHTML = `<span class="text-xl">${icon}</span> <span class="font-medium">${message}</span>`;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
