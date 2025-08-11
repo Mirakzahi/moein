@@ -509,20 +509,16 @@
     </footer>
 
     <script>
+        // ADMIN PASSWORD (CHANGE THIS!)
         const ADMIN_PASSWORD = 'your_secure_password_here'; 
+        
+        // Data for Daily Config
         const dailyConfigLink = 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws';
 
-        let configs = {
-            cf_de_1: { name: 'VLESS - آلمان (CDN 1)', config: 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws' },
-            cf_de_2: { name: 'VLESS - آلمان (CDN 2)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@www.speedtest.net:443?path=%2FweIiUrqpwSQLUEGI%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%202' },
-            cf_de_3: { name: 'VLESS - آلمان (CDN 3)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.45.9:443?path=%2FSKBxgdeScAwjcuZJ%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31Lndm4w8uj0yp1drWLTdtdko6y-cU.PaGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%203' },
-            cf_de_4: { name: 'VLESS - آلمان (CDN 4)', config: 'vless://826f524a-cea1-4e44-9b49-3381d13b7593@172.66.46.247:443?path=%2FfNX3GzNxncCIIsf7%3Ded%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lndM4W8UJ0YP1DrwLtDtDKO6y-CU.pAgES.DEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%204' },
-            cf_de_tr_5: { name: 'Trojan - آلمان (CDN 5)', config: 'trojan://%3AbC5%5Elakx%3E%24d@fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev:443?path=%2FtrULF8XIBg0I5upoFe%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fK31lnDM4w8uJ0yp1dRWlTdTdko6y-CU.pAGES.DeV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20-%20IRDevs%205' },
-            cf_de_tr_6: { name: 'Trojan - آلمان (CDN 6)', config: 'trojan://%3AbC5%5Elakx%3E%24d@www.speedtest.net:443?path=%2FtrAF6D510tD4ptv2AR%3Ded%3D2560&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=FK31lNdM4W8Uj0Yp1dRWlTDtDKo6y-Cu.pagES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%206' },
-            cf_de_tr_7: { name: 'Trojan - آلمان (CDN 7)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.46.247:443?path=%2FtrCa9HmRicRGuAse4M&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31lnDM4W8uJ0Yp1drWlTdTdkO6Y-Cu.pages.deV#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%207' },
-            cf_de_tr_8: { name: 'Trojan - آلمان (CDN 8)', config: 'trojan://%3AbC5%5Elakx%3E%24d@172.66.45.9:443?path=%2FtrNs9G5VJ2vI0PxgP2&security=tls&alpn=http%2F1.1&host=fk31lndm4w8uj0yp1drwltdtdko6y-cu.pages.dev&fp=randomized&type=ws&sni=fk31LnDm4W8uj0yP1dRwLTDTdKo6Y-cu.pAGES.dEv#%F0%9F%87%A9%F0%9F%87%AA%20Cloudflare%20Plus%20-%20IRDevs%208' },
-        };
+        // Data for regular configs (used for a different section that's currently removed)
+        let configs = {};
 
+        // Data for Exclusive configs
         let exclusiveConfigs = {
             '09123456789': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
             '09151112233': { name: 'علی احمدی', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
@@ -592,9 +588,7 @@
             }
 
             buildFAQ();
-            buildConfigList();
             updateServerStats();
-            generateQR();
             setInterval(updateServerStats, 3000);
             
             const observer = new IntersectionObserver((entries) => {
@@ -640,11 +634,19 @@
                     <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
                     <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
                 </div>
+                <div class="card-glass p-4 rounded-xl text-center">
+                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
+                    </button>
+                </div>
             `;
             for (const phone in exclusiveConfigs) {
                 const config = exclusiveConfigs[phone];
                 const itemHtml = `
-                    <div class="card-glass p-4 rounded-xl">
+                    <div class="card-glass p-4 rounded-xl relative">
+                        <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                         <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
                         <input type="text" data-key="phone" value="${phone}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
                         <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
@@ -655,6 +657,28 @@
                 `;
                 form.innerHTML += itemHtml;
             }
+        }
+        
+        function addConfigField() {
+            const form = document.getElementById('adminConfigForm');
+            const newFieldHtml = `
+                <div class="card-glass p-4 rounded-xl relative">
+                    <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
+                    <input type="text" data-key="phone" placeholder="مثال: 09121234567" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
+                    <input type="text" data-key="name" placeholder="مثال: علی احمدی" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <label class="block text-gray-400 text-sm mb-1">لینک کانفیگ</label>
+                    <textarea data-key="config" placeholder="لینک VLESS, VMESS, Trojan" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+                </div>
+            `;
+            form.innerHTML += newFieldHtml;
+        }
+
+        function removeConfigField(button) {
+            button.closest('.card-glass').remove();
         }
 
         function saveConfigs() {
@@ -680,7 +704,7 @@
             } else {
                 exclusiveConfigs = newExclusiveConfigs;
                 showNotification('تغییرات با موفقیت ذخیره شد!', 'success');
-                loadConfigsToAdminPanel(); // Refresh the form with new data
+                // loadConfigsToAdminPanel(); // Refresh the form with new data
             }
         }
 
@@ -788,40 +812,6 @@
                     }
                 }
             });
-        }
-
-        function buildConfigList() {
-            const container = document.getElementById('config-list-container');
-            container.innerHTML = '';
-            Object.keys(configs).forEach(key => {
-                const button = document.createElement('button');
-                button.onclick = () => copyConfig(key);
-                button.className = 'w-full bg-white bg-opacity-10 hover:bg-opacity-20 text-white py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-between px-4 text-sm';
-                button.innerHTML = `
-                    <span>${configs[key].name}</span>
-                    <i class="fa-solid fa-copy"></i>
-                `;
-                container.appendChild(button);
-            });
-        }
-
-        function generateQR() {
-            const selectedValue = document.getElementById('configSelect').value;
-            const configData = configs[selectedValue];
-            if (!configData) return;
-            
-            const qrContainer = document.getElementById('qrcode');
-            qrContainer.innerHTML = '';
-            
-            try {
-                const qr = qrcode(0, 'M');
-                qr.addData(configData.config);
-                qr.make();
-                const qrSvg = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
-                qrContainer.innerHTML = qrSvg.replace('<svg', '<svg style="width: 100%; max-width: 180px; height: auto; border-radius: 8px;"');
-            } catch (error) {
-                qrContainer.innerHTML = '<p class="text-red-500">خطا در تولید QR کد</p>';
-            }
         }
 
         async function getUserInfo() {
@@ -958,6 +948,10 @@
         function copySubLink() {
             const subLink = document.getElementById('subLink').textContent.trim();
             copyToClipboard(subLink, '✅ لینک اشتراک کپی شد!');
+        }
+
+        function copyDailyConfig() {
+            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
         }
 
         function closeWelcome() {
