@@ -281,7 +281,7 @@
                 </h2>
                 <p class="text-gray-300 text-lg mb-6">یه لینک داخل فیلترشکن خو وارد کنیی تا کانفیگ ون بصورت خوردکار بالا بیان. </p>
                 <div class="bg-black bg-opacity-20 rounded-xl p-4 mb-6 shadow-inner relative z-10">
-                    <p id="subLink" class="font-mono text-center text-white font-bold text-sm md:text-lg break-all">https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt</p>
+                    <p id="subLink" class="font-mono text-center text-white font-bold text-sm md:text-lg break-all"></p>
                 </div>
                 <button onclick="copySubLink()" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
                     <i class="fa-solid fa-copy ml-2"></i>
@@ -515,94 +515,48 @@
 
     <script>
         const ADMIN_PASSWORD = 'moein'; 
-        const dailyConfigLink = 'vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@102.177.176.213:8880?path=/&security=none&encryption=none&host=jp.laoyoutiao.link&type=ws';
+        const JSON_URL = 'data.json';
+        let exclusiveConfigs = {};
+        let dailyConfigLink = '';
 
-        let exclusiveConfigs = {
-            '09123456789': { name: 'معین میرکی', config: 'vless://exclusive-config-for-personal-use-1@127.0.0.1:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-1' },
-            '09151112233': { name: 'علی احمدی', config: 'vless://exclusive-config-for-personal-use-2@127.0.0.2:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-2' },
-            '09164445566': { name: 'سارا کریمی', config: 'vless://exclusive-config-for-personal-use-3@127.0.0.3:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-3' },
-            '09177778899': { name: 'رضا حسینی', config: 'vless://exclusive-config-for-personal-use-4@127.0.0.4:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-4' },
-            '09181234567': { name: 'فاطمه رضایی', config: 'vless://exclusive-config-for-personal-use-5@127.0.0.5:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-5' },
-            '09199876543': { name: 'محمد قاسمی', config: 'vless://exclusive-config-for-personal-use-6@127.0.0.6:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-6' },
-            '09211357924': { name: 'زهرا یوسفی', config: 'vless://exclusive-config-for-personal-use-7@127.0.0.7:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-7' },
-            '09224681357': { name: 'حسین محمدی', config: 'vless://exclusive-config-for-personal-use-8@127.0.0.8:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-8' },
-            '09301239876': { name: 'مریم نوری', config: 'vless://exclusive-config-for-personal-use-9@127.0.0.9:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-9' },
-            '09335552211': { name: 'امیر ابراهیمی', config: 'vless://exclusive-config-for-personal-use-10@127.0.0.10:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-10' },
-            '09351020304': { name: 'لیلا بهرامی', config: 'vless://exclusive-config-for-personal-use-11@127.0.0.11:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-11' },
-            '09364567890': { name: 'مهدی هاشمی', config: 'vless://exclusive-config-for-personal-use-12@127.0.0.12:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-12' },
-            '09378901234': { name: 'نگین صفری', config: 'vless://exclusive-config-for-personal-use-13@127.0.0.13:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-13' },
-            '09381122334': { name: 'جواد علوی', config: 'vless://exclusive-config-for-personal-use-14@127.0.0.14:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-14' },
-            '09395566778': { name: 'نازنین احمدی', config: 'vless://exclusive-config-for-personal-use-15@127.0.0.15:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-15' },
-            '09902345678': { name: 'سامان یعقوبی', config: 'vless://exclusive-config-for-personal-use-16@127.0.0.16:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-16' },
-            '09917890123': { name: 'هانیه کریمی', config: 'vless://exclusive-config-for-personal-use-17@127.0.0.17:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-17' },
-            '09923456789': { name: 'کاوه ناصری', config: 'vless://exclusive-config-for-personal-use-18@127.0.0.18:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-18' },
-            '09930123456': { name: 'نیلوفر مهرابی', config: 'vless://exclusive-config-for-personal-use-19@127.0.0.19:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-19' },
-            '09941122334': { name: 'سجاد حسینی', config: 'vless://exclusive-config-for-personal-use-20@127.0.0.20:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-20' },
-            '09955678901': { name: 'پریسا قاسمی', config: 'vless://exclusive-config-for-personal-use-21@127.0.0.21:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-21' },
-            '09968765432': { name: 'بهنام یوسفی', config: 'vless://exclusive-config-for-personal-use-22@127.0.0.22:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-22' },
-            '09971239876': { name: 'مهتاب نوری', config: 'vless://exclusive-config-for-personal-use-23@127.0.0.23:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-23' },
-            '09983451278': { name: 'پرهام موسوی', config: 'vless://exclusive-config-for-personal-use-24@127.0.0.24:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-24' },
-            '09101231234': { name: 'رها محمدی', config: 'vless://exclusive-config-for-personal-use-25@127.0.0.25:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-25' },
-            '09112342345': { name: 'امید علوی', config: 'vless://exclusive-config-for-personal-use-26@127.0.0.26:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-26' },
-            '09124567890': { name: 'سحر کریمی', config: 'vless://exclusive-config-for-personal-use-27@127.0.0.27:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-27' },
-            '09137890123': { name: 'کمال نادری', config: 'vless://exclusive-config-for-personal-use-28@127.0.0.28:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-28' },
-            '09141112223': { name: 'مونا یوسفی', config: 'vless://exclusive-config-for-personal-use-29@127.0.0.29:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-29' },
-            '09153334445': { name: 'بهزاد رستمی', config: 'vless://exclusive-config-for-personal-use-30@127.0.0.30:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-30' },
-            '09165556667': { name: 'الهام سهرابی', config: 'vless://exclusive-config-for-personal-use-31@127.0.0.31:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-31' },
-            '09177891234': { name: 'پیمان مهرآبادی', config: 'vless://exclusive-config-for-personal-use-32@127.0.0.32:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-32' },
-            '09181235678': { name: 'روناک احمدیان', config: 'vless://exclusive-config-for-personal-use-33@127.0.0.33:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-33' },
-            '09199871234': { name: 'آرش قاسمی', config: 'vless://exclusive-config-for-personal-use-34@127.0.0.34:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-34' },
-            '09214567890': { name: 'نسرین یوسفی', config: 'vless://exclusive-config-for-personal-use-35@127.0.0.35:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-35' },
-            '09228765432': { name: 'کیهان رضایی', config: 'vless://exclusive-config-for-personal-use-36@127.0.0.36:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-36' },
-            '09301112233': { name: 'مونا یزدانی', config: 'vless://exclusive-config-for-personal-use-37@127.0.0.37:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-37' },
-            '09334445566': { name: 'فریدون زارعی', config: 'vless://exclusive-config-for-personal-use-38@127.0.0.38:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-38' },
-            '09356667788': { name: 'رویا حسنی', config: 'vless://exclusive-config-for-personal-use-39@127.0.0.39:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-39' },
-            '09361234567': { name: 'حمیدرضا نجفی', config: 'vless://exclusive-config-for-personal-use-40@127.0.0.40:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-40' },
-            '09374567890': { name: 'نازلی سلطانی', config: 'vless://exclusive-config-for-personal-use-41@127.0.0.41:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-41' },
-            '09385556667': { name: 'کاظم امینی', config: 'vless://exclusive-config-for-personal-use-42@127.0.0.42:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-42' },
-            '09399876543': { name: 'محبوبه شریفی', config: 'vless://exclusive-config-for-personal-use-43@127.0.0.43:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-43' },
-            '09903456789': { name: 'علی‌اکبر کرمی', config: 'vless://exclusive-config-for-personal-use-44@127.0.0.44:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-44' },
-            '09916789012': { name: 'سحر محمودی', config: 'vless://exclusive-config-for-personal-use-45@127.0.0.45:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-45' },
-            '09924567890': { name: 'مهدیار توکلی', config: 'vless://exclusive-config-for-personal-use-46@127.0.0.46:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-46' },
-            '09930112233': { name: 'پگاه فراهانی', config: 'vless://exclusive-config-for-personal-use-47@127.0.0.47:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-47' },
-            '09945566778': { name: 'یوسف هاشمی', config: 'vless://exclusive-config-for-personal-use-48@127.0.0.48:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-48' },
-            '09951239876': { name: 'آتنا یزدانی', config: 'vless://exclusive-config-for-personal-use-49@127.0.0.49:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-49' },
-            '09968765431': { name: 'سهراب زارعی', config: 'vless://exclusive-config-for-personal-use-50@127.0.0.50:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-50' },
-        };
-
-        const faqData = [
-            { question: "آیا این سرویس رایگان است؟", answer: "بله، سرویس آزادی‌نت کاملاً رایگان است و همیشه رایگان باقی خواهد ماند. هدف ما فراهم کردن دسترسی آزاد به اینترنت برای همه است." },
-            { question: "چرا گاهی سرعت کم می‌شود؟", answer: "کاهش سرعت می‌تواند به دلیل شلوغی سرور در ساعات اوج مصرف یا اختلالات شبکه اینترنت شما باشد. پیشنهاد می‌کنیم سرور دیگری را امتحان کنید یا در زمان دیگری متصل شوید." },
-            { question: "آیا استفاده از VPN امن است؟", answer: "بله، ما از آخرین پروتکل‌های رمزنگاری برای حفاظت از اطلاعات شما استفاده می‌کنیم. ترافیک شما کاملاً امن و غیرقابل ردیابی است." },
-            { question: "چگونه می‌توانم سرعت را بهبود دهم؟", answer: "برای بهترین سرعت، سروری را انتخاب کنید که از نظر جغرافیایی به شما نزدیک‌تر است. همچنین، بستن برنامه‌های اضافی که از اینترنت استفاده می‌کنند می‌تواند به بهبود سرعت کمک کند." },
-            { question: "اگر سرور قطع شود چه کنم؟", answer: "کافیست از لیست سرورها، یک سرور دیگر را انتخاب و متصل شوید. ما چندین سرور فعال برای اطمینان از پایداری سرویس داریم." },
-            { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از آزادی‌نت روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
-        ];
-
-        // --- CORE FUNCTIONS ---
         document.addEventListener('DOMContentLoaded', function() {
             if (!sessionStorage.getItem('azadiNetWelcomed')) {
                 document.getElementById('welcomeModal').classList.remove('hidden');
             }
-            buildFAQ();
-            updateServerStats();
-            setInterval(updateServerStats, 3000);
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-slide-up');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.animated-section').forEach(section => {
-                observer.observe(section);
-            });
-            
-            getUserInfo();
+            fetchConfigsAndInit();
         });
 
+        async function fetchConfigsAndInit() {
+            try {
+                const response = await fetch(JSON_URL);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch JSON: ${response.status} ${response.statusText}`);
+                }
+                const data = await response.json();
+                exclusiveConfigs = data.exclusiveConfigs;
+                dailyConfigLink = data.dailyConfigLink;
+                
+                // Initialize other dynamic parts of the page here
+                updateServerStats();
+                buildFAQ();
+                getUserInfo();
+                
+                // Add click events for quick actions
+                document.querySelectorAll('.ripple').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                    });
+                });
+
+            } catch (error) {
+                console.error("Error loading configs:", error);
+                showNotification('خطا در بارگذاری اطلاعات سایت. لطفاً بعداً دوباره امتحان کنید.', 'error');
+            }
+        }
+
+        // Functions for Admin Panel
         function showAdminLogin() {
             document.getElementById('adminPanelLogin').classList.remove('hidden');
         }
@@ -626,20 +580,9 @@
 
         function loadConfigsToAdminPanel() {
             const form = document.getElementById('adminConfigForm');
-            form.innerHTML = `
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
-                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
-                </div>
-                <div class="card-glass p-4 rounded-xl text-center">
-                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
-                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
-                    </button>
-                </div>
-            `;
-            for (const phone in exclusiveConfigs) {
+            const currentConfigsHtml = Object.keys(exclusiveConfigs).map(phone => {
                 const config = exclusiveConfigs[phone];
-                const itemHtml = `
+                return `
                     <div class="card-glass p-4 rounded-xl relative">
                         <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
                             <i class="fa-solid fa-xmark"></i>
@@ -652,8 +595,20 @@
                         <textarea data-key="config" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500">${config.config}</textarea>
                     </div>
                 `;
-                form.innerHTML += itemHtml;
-            }
+            }).join('');
+            
+            form.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
+                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
+                </div>
+                <div class="card-glass p-4 rounded-xl text-center">
+                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
+                    </button>
+                </div>
+                ${currentConfigsHtml}
+            `;
         }
         
         function addConfigField() {
@@ -671,7 +626,8 @@
                     <textarea data-key="config" placeholder="لینک VLESS, VMESS, Trojan" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
                 </div>
             `;
-            form.innerHTML += newFieldHtml;
+            const addButton = form.querySelector('.card-glass:last-child');
+            addButton.insertAdjacentHTML('afterend', newFieldHtml);
         }
 
         function removeConfigField(button) {
