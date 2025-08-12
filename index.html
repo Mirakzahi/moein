@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معین وی پی ان- سرویس VPN حرفه‌ای و رایگان</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script>
         tailwind.config = {
@@ -90,78 +89,13 @@
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
         }
-        .animated-section {
-            opacity: 0;
-        }
-        /* Custom scrollbar for config list */
-        .config-list::-webkit-scrollbar {
-            width: 8px;
-        }
-        .config-list::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-        }
-        .config-list::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-        }
-        .config-list::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.3);
-        }
     </style>
 </head>
 <body class="min-h-screen text-gray-200">
 
-    <div id="welcomeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border">
-            <div class="text-center">
-                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                    <span class="text-3xl">🎉</span>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">به سرویس معین vpn خوش آمدی!</h2>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                     دروازه ی ورود به اینترنت آزاد.
-                </p>
-                <button onclick="closeWelcome()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
-                    بزن بریم!
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="adminPanelLogin" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border text-gray-900">
-            <div class="text-center">
-                <h2 class="text-2xl font-bold mb-4">ورود به پنل مدیریت</h2>
-                <p class="text-sm text-gray-600 mb-6">رمز عبور مدیریتی را وارد کنید.</p>
-                <input type="password" id="adminPassword" placeholder="رمز عبور" class="w-full bg-gray-200 rounded-xl p-3 mb-4 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="loginAdmin()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
-                    ورود
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminPanelContent" class="hidden fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md overflow-y-auto z-50 p-4 animate-fade-in">
-        <div class="card-glass rounded-3xl p-8 max-w-xl w-full mx-auto my-10">
-            <h2 class="text-3xl font-bold mb-6 text-center text-white">پنل مدیریت کانفیگ‌ها</h2>
-            <div id="adminConfigForm" class="space-y-4">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
-                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
-                </div>
-            </div>
-            <div class="text-center mt-8">
-                <button onclick="saveConfigs()" class="bg-green-500 hover:bg-green-600 text-white py-3 px-8 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
-                    ذخیره تغییرات
-                </button>
-            </div>
-        </div>
-    </div>
-
     <header class="py-20 relative overflow-hidden">
         <div class="container mx-auto px-4 relative z-10">
-            <div class="text-center animate-fade-in">
+            <div class="text-center">
                 <div class="flex items-center justify-center mb-10">
                     <div class="card-glass rounded-3xl flex items-center justify-center w-24 h-24 ml-6 shadow-2xl">
                         <span class="text-4xl text-white">🚀</span>
@@ -179,14 +113,14 @@
                                 <div class="w-3 h-3 status-online rounded-full ml-2"></div>
                                 <div class="font-bold text-lg text-gray-100">وضعیت</div>
                             </div>
-                            <div class="text-blue-200 text-sm font-mono">آپتایم: <span id="uptime" class="font-semibold">--</span>%</div>
+                            <div class="text-blue-200 text-sm font-mono">آپتایم: <span id="uptime" class="font-semibold">100.0000</span>%</div>
                         </div>
                         <div class="text-center">
                             <div class="font-bold text-2xl mb-1 text-white" id="activeServers">24</div>
                             <div class="text-blue-200 text-sm">سرورهای فعال</div>
                         </div>
                         <div class="text-center">
-                            <div class="font-bold text-2xl mb-1 text-white" id="serverPing">--</div>
+                            <div class="font-bold text-2xl mb-1 text-white" id="serverPing">45ms</div>
                             <div class="text-blue-200 text-sm">پینگ</div>
                         </div>
                     </div>
@@ -197,17 +131,17 @@
                         <div class="flex flex-col items-center">
                             <i class="fa-solid fa-wifi text-blue-300 text-2xl mb-3"></i>
                             <h3 class="text-gray-300 text-sm font-bold mb-1">آدرس IP شما</h3>
-                            <p id="user-ip" class="font-mono text-white font-semibold animate-pulse">در حال بارگذاری...</p>
+                            <p id="user-ip" class="font-mono text-white font-semibold">127.0.0.1</p>
                         </div>
                         <div class="flex flex-col items-center">
                             <i class="fa-solid fa-location-dot text-green-300 text-2xl mb-3"></i>
                             <h3 class="text-gray-300 text-sm font-bold mb-1">موقعیت مکانی</h3>
-                            <p id="user-location" class="font-mono text-white font-semibold animate-pulse">در حال بارگذاری...</p>
+                            <p id="user-location" class="font-mono text-white font-semibold">نامشخص</p>
                         </div>
                         <div class="flex flex-col items-center">
                             <i class="fa-solid fa-building text-purple-300 text-2xl mb-3"></i>
                             <h3 class="text-gray-300 text-sm font-bold mb-1">سرویس‌دهنده</h3>
-                            <p id="user-isp" class="font-mono text-white font-semibold animate-pulse">در حال بارگذاری...</p>
+                            <p id="user-isp" class="font-mono text-white font-semibold">نامشخص</p>
                         </div>
                     </div>
                 </div>
@@ -247,14 +181,7 @@
                         <i class="fa-solid fa-link text-3xl text-white"></i>
                     </div>
                     <h3 class="font-bold text-xl mb-2 text-white">لینک اشتراک</h3>
-                    <p class="text-gray-300 text-sm">سرور های رایگان را از اینجا دریافت کنید    </p>
-                </a>
-                <a href="#exclusive-sub" class="card-glass rounded-3xl p-6 text-center ripple group">
-                    <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
-                        <i class="fa-solid fa-rss text-3xl text-white"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-2 text-white">اشتراک اختصاصی</h3>
-                    <p class="text-gray-300 text-sm">کانفیگ‌های مخصوص نت شخصی</p>
+                    <p class="text-gray-300 text-sm">سرور های رایگان را از اینجا دریافت کنید</p>
                 </a>
                 <a href="#daily-config" class="card-glass rounded-3xl p-6 text-center ripple group">
                     <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
@@ -262,6 +189,13 @@
                     </div>
                     <h3 class="font-bold text-xl mb-2 text-white">کانفیگ روز</h3>
                     <p class="text-gray-300 text-sm">هر روز یک کانفیگ قوی</p>
+                </a>
+                <a href="#download" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-toolbox text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-white">نرم افزارها</h3>
+                    <p class="text-gray-300 text-sm">دانلود نرم افزارها  </p>
                 </a>
             </div>
         </section>
@@ -561,66 +495,40 @@
         </div>
     </footer>
     <script>
-        const dailyConfigLink = 'vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config';
         const subLink = "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt";
+        const dailyConfigLink = 'vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config';
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Check for welcome modal and hide if already seen
-            if (!sessionStorage.getItem('azadiNetWelcomed')) {
-                document.getElementById('welcomeModal').classList.remove('hidden');
-            }
-            
-            const subLinkElement = document.getElementById('subLink');
-            if (subLinkElement) {
-                subLinkElement.textContent = subLink;
-            }
+            document.getElementById('subLink').textContent = subLink;
 
-            function updateServerStats() {
-                document.getElementById('uptime').textContent = '100.0000';
-                document.getElementById('activeServers').textContent = '24';
-                document.getElementById('serverPing').textContent = '45ms';
-            }
-            updateServerStats();
-
-            function showNotification(message, type = 'success') {
-                alert(message);
-            }
-            
             window.copySubLink = function() {
                 navigator.clipboard.writeText(subLink).then(() => {
-                    showNotification('✅ لینک اشتراک کپی شد!', 'success');
+                    alert('✅ لینک اشتراک کپی شد!');
                 }).catch(err => {
-                    alert('خطا در کپی کردن!');
+                    console.error('Could not copy text: ', err);
                 });
             }
+
             window.copyDailyConfig = function() {
                 navigator.clipboard.writeText(dailyConfigLink).then(() => {
-                    showNotification('✅ کانفیگ روز با موفقیت کپی شد!', 'success');
+                    alert('✅ کانفیگ روز با موفقیت کپی شد!');
                 }).catch(err => {
-                    alert('خطا در کپی کردن!');
+                    console.error('Could not copy text: ', err);
                 });
             }
-
-            window.closeWelcome = function() {
-                sessionStorage.setItem('azadiNetWelcomed', 'true');
-                const modal = document.getElementById('welcomeModal');
-                modal.style.transition = 'opacity 0.3s ease';
-                modal.style.opacity = '0';
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            }
-
-            const faqData = [
-                { question: "آیا این سرویس رایگان است؟", answer: "بله، سرویس معین vpn کاملاً رایگان است و همیشه رایگان باقی خواهد ماند. هدف ما فراهم کردن دسترسی آزاد به اینترنت برای همه است." },
-                { question: "چرا گاهی سرعت کم می‌شود؟", answer: "کاهش سرعت می‌تواند به دلیل شلوغی سرور در ساعات اوج مصرف یا اختلالات شبکه اینترنت شما باشد. پیشنهاد می‌کنیم سرور دیگری را امتحان کنید یا در زمان دیگری متصل شوید." },
-                { question: "آیا استفاده از VPN امن است؟", answer: "بله، ما از آخرین پروتکل‌های رمزنگاری برای حفاظت از اطلاعات شما استفاده می‌کنیم. ترافیک شما کاملاً امن و غیرقابل ردیابی است." },
-                { question: "چگونه می‌توانم سرعت را بهبود دهم؟", answer: "برای بهترین سرعت، سروری را انتخاب کنید که از نظر جغرافیایی به شما نزدیک‌تر است. همچنین، بستن برنامه‌های اضافی که از اینترنت استفاده می‌کنند می‌تواند به بهبود سرعت کمک کند." },
-                { question: "اگر سرور قطع شود چه کنم؟", answer: "کافیست از لیست سرورها، یک سرور دیگر را انتخاب و متصل شوید. ما چندین سرور فعال برای اطمینان از پایداری سرویس داریم." },
-                { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از معین vpn روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
-            ];
             
-            const container = document.getElementById('faq-container');
-            if(container) {
-                container.innerHTML = faqData.map(item => `
+            // Dummy FAQ Accordion
+            const faqContainer = document.getElementById('faq-container');
+            if (faqContainer) {
+                const faqData = [
+                    { question: "آیا این سرویس رایگان است؟", answer: "بله، سرویس معین vpn کاملاً رایگان است و همیشه رایگان باقی خواهد ماند. هدف ما فراهم کردن دسترسی آزاد به اینترنت برای همه است." },
+                    { question: "چرا گاهی سرعت کم می‌شود؟", answer: "کاهش سرعت می‌تواند به دلیل شلوغی سرور در ساعات اوج مصرف یا اختلالات شبکه اینترنت شما باشد. پیشنهاد می‌کنیم سرور دیگری را امتحان کنید یا در زمان دیگری متصل شوید." },
+                    { question: "آیا استفاده از VPN امن است؟", answer: "بله، ما از آخرین پروتکل‌های رمزنگاری برای حفاظت از اطلاعات شما استفاده می‌کنیم. ترافیک شما کاملاً امن و غیرقابل ردیابی است." },
+                    { question: "چگونه می‌توانم سرعت را بهبود دهم؟", answer: "برای بهترین سرعت، سروری را انتخاب کنید که از نظر جغرافیایی به شما نزدیک‌تر است. همچنین، بستن برنامه‌های اضافی که از اینترنت استفاده می‌کنند می‌تواند به بهبود سرعت کمک کند." },
+                    { question: "اگر سرور قطع شود چه کنم؟", answer: "کافیست از لیست سرورها، یک سرور دیگر را انتخاب و متصل شوید. ما چندین سرور فعال برای اطمینان از پایداری سرویس داریم." },
+                    { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از معین vpn روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
+                ];
+                faqContainer.innerHTML = faqData.map(item => `
                     <div class="card-glass rounded-2xl overflow-hidden">
                         <div class="faq-question flex justify-between items-center p-5 cursor-pointer hover:bg-white hover:bg-opacity-10">
                             <h3 class="font-semibold text-white">${item.question}</h3>
@@ -632,7 +540,7 @@
                     </div>
                 `).join('');
 
-                container.addEventListener('click', function(e) {
+                faqContainer.addEventListener('click', function(e) {
                     const question = e.target.closest('.faq-question');
                     if (question) {
                         const answer = question.nextElementSibling;
@@ -648,7 +556,28 @@
                 });
             }
             
-            // Handle smooth scrolling for anchors
+            // Dummy server stats
+            document.getElementById('uptime').textContent = '100.0000';
+            document.getElementById('activeServers').textContent = '24';
+            document.getElementById('serverPing').textContent = '45ms';
+            document.getElementById('user-ip').textContent = '127.0.0.1';
+            document.getElementById('user-location').textContent = 'نامشخص';
+            document.getElementById('user-isp').textContent = 'نامشخص';
+
+            // Dummy checkSubscription for the exclusive section
+            window.checkSubscription = function() {
+                const phoneInput = document.getElementById('phoneInput').value.trim();
+                const resultDiv = document.getElementById('exclusiveConfigResult');
+                resultDiv.innerHTML = `
+                    <div class="mt-4 p-4 rounded-lg bg-red-500 bg-opacity-30 border border-red-500">
+                        <h4 class="font-bold text-red-300">این قابلیت در نسخه ساده غیرفعال است.</h4>
+                        <p class="text-sm mt-2">برای استفاده از این بخش، به نسخه کامل سایت نیاز دارید.</p>
+                    </div>
+                `;
+                resultDiv.classList.remove('hidden');
+            }
+
+            // Smooth scrolling for anchors
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
