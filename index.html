@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معین وی پی ان- سرویس VPN حرفه‌ای و رایگان</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script>
         tailwind.config = {
@@ -14,9 +15,17 @@
                         'vazir': ['Vazirmatn', 'Tahoma', 'Arial', 'sans-serif']
                     },
                     animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'pulse-fast': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'gradient-bg': 'gradient-bg 15s ease infinite',
                     },
                     keyframes: {
+                        fadeIn: { 'from': { opacity: 0 }, 'to': { opacity: 1 } },
+                        slideUp: {
+                            'from': { transform: 'translateY(30px)', opacity: 0 },
+                            'to': { transform: 'translateY(0)', opacity: 1 }
+                        },
                         'gradient-bg': {
                             '0%, 100%': { 'background-position': '0% 50%' },
                             '50%': { 'background-position': '100% 50%' },
@@ -53,7 +62,7 @@
         .status-online {
             background: #10b981;
             box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse-fast 2s infinite;
         }
         .ripple { position: relative; overflow: hidden; }
         .ripple::before {
@@ -81,9 +90,74 @@
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
         }
+        .animated-section {
+            opacity: 0;
+        }
+        /* Custom scrollbar for config list */
+        .config-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .config-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .config-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        .config-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
+        }
     </style>
 </head>
 <body class="min-h-screen text-gray-200">
+
+    <div id="welcomeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <span class="text-3xl">🎉</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">به سرویس معین vpn خوش آمدی!</h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                     دروازه ی ورود به اینترنت آزاد.
+                </p>
+                <button onclick="closeWelcome()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
+                    بزن بریم!
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="adminPanelLogin" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border text-gray-900">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold mb-4">ورود به پنل مدیریت</h2>
+                <p class="text-sm text-gray-600 mb-6">رمز عبور مدیریتی را وارد کنید.</p>
+                <input type="password" id="adminPassword" placeholder="رمز عبور" class="w-full bg-gray-200 rounded-xl p-3 mb-4 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button onclick="loginAdmin()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
+                    ورود
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPanelContent" class="hidden fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md overflow-y-auto z-50 p-4 animate-fade-in">
+        <div class="card-glass rounded-3xl p-8 max-w-xl w-full mx-auto my-10">
+            <h2 class="text-3xl font-bold mb-6 text-center text-white">پنل مدیریت کانفیگ‌ها</h2>
+            <div id="adminConfigForm" class="space-y-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
+                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <button onclick="saveConfigs()" class="bg-green-500 hover:bg-green-600 text-white py-3 px-8 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    ذخیره تغییرات
+                </button>
+            </div>
+        </div>
+    </div>
 
     <header class="py-20 relative overflow-hidden">
         <div class="container mx-auto px-4 relative z-10">
@@ -182,12 +256,12 @@
                     <h3 class="font-bold text-xl mb-2 text-white">اشتراک اختصاصی</h3>
                     <p class="text-gray-300 text-sm">کانفیگ‌های مخصوص نت شخصی</p>
                 </a>
-                <a href="#download" class="card-glass rounded-3xl p-6 text-center ripple group">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
-                        <i class="fa-solid fa-toolbox text-3xl text-white"></i>
+                <a href="#daily-config" class="card-glass rounded-3xl p-6 text-center ripple group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-transform group-hover:scale-110">
+                        <i class="fa-solid fa-star text-3xl text-white"></i>
                     </div>
-                    <h3 class="font-bold text-xl mb-2 text-white">نرم افزارها</h3>
-                    <p class="text-gray-300 text-sm">دانلود نرم افزارها  </p>
+                    <h3 class="font-bold text-xl mb-2 text-white">کانفیگ روز</h3>
+                    <p class="text-gray-300 text-sm">هر روز یک کانفیگ قوی</p>
                 </a>
             </div>
         </section>
@@ -204,29 +278,13 @@
                 <div class="bg-black bg-opacity-20 rounded-xl p-4 mb-6 shadow-inner relative z-10">
                     <p id="subLink" class="font-mono text-center text-white font-bold text-sm md:text-lg break-all">https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt</p>
                 </div>
-                <button onclick="alert('لینک اشتراک کپی شد!')" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                <button onclick="copyToClipboard('https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt', '✅ لینک اشتراک کپی شد!')" class="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
                     <i class="fa-solid fa-copy ml-2"></i>
            جهت کپی کردن ضربه بزنید
                 </button>
             </div>
         </section>
 
-        <section id="daily-config" class="animated-section container mx-auto px-4">
-            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
-                <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                    <i class="fa-solid fa-star text-3xl text-white"></i>
-                </div>
-                <h2 class="text-3xl font-bold mb-4 text-white">
-                    کانفیگ روز
-                </h2>
-                <p class="text-gray-300 text-lg mb-6">هر روز یک کانفیگ قوی و جدید به صورت رایگان دریافت کنید.</p>
-                <button onclick="alert('کانفیگ روز با موفقیت کپی شد!')" class="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
-                    <i class="fa-solid fa-copy ml-2"></i>
-                    دریافت لینک
-                </button>
-            </div>
-        </section>
-        
         <section id="exclusive-sub" class="animated-section container mx-auto px-4">
             <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
                 <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -246,6 +304,22 @@
 
                 <div id="exclusiveConfigResult" class="mt-8 text-center hidden">
                     </div>
+            </div>
+        </section>
+        
+        <section id="daily-config" class="animated-section container mx-auto px-4">
+            <div class="card-glass rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fa-solid fa-star text-3xl text-white"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-white">
+                    کانفیگ روز
+                </h2>
+                <p class="text-gray-300 text-lg mb-6">هر روز یک کانفیگ قوی و جدید به صورت رایگان دریافت کنید.</p>
+                <button onclick="copyToClipboard('vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config', '✅ کانفیگ روز با موفقیت کپی شد!')" class="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
+                    <i class="fa-solid fa-copy ml-2"></i>
+                    دریافت لینک
+                </button>
             </div>
         </section>
 
@@ -348,7 +422,7 @@
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 text-white text-4xl font-bold shadow-lg mb-4">3</div>
-                    <h3 class="text-xl font-bold mb-2">اضافه کردن سرورون</h3>
+                    <h3 class="text-xl font-bold mb-2">اضافه کردن سرور</h3>
                     <p class="text-gray-300">
                         در نرم افزارها، از قسمت اشتراک (Subscription)، لینک کانفیگ را وارد کنید تا سرورها اضافه شوند
                     </p>
@@ -466,7 +540,7 @@
                     <ul class="text-gray-300 space-y-3 text-right">
                         <li class="flex items-start"><i class="fa-solid fa-arrow-up-from-bracket text-sky-400 ml-2 mt-1 w-5 text-center"></i>مطمئن شوید از آخرین نسخه کلاینت استفاده می‌کنید.</li>
                         <li class="flex items-start"><i class="fa-solid fa-power-off text-red-400 ml-2 mt-1 w-5 text-center"></i>یک بار دستگاه خود را ری‌استارت کنید.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-headset text-green-400 ml-2 mt-1 w-5 text-center"></i>با <a href="https://t.me/itsthemoein" class="text-blue-400 font-semibold">پشتیبانی</a> در ارتباط باشید.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-headset text-green-400 ml-2 mt-1 w-5 text-center"></i>با <a href="https://wa.me/+989307916368" class="text-blue-400 font-semibold">پشتیبانی</a> در ارتباط باشید.</li>
                     </ul>
                 </div>
             </div>
@@ -476,22 +550,22 @@
     <footer class="pt-16 pb-8 relative overflow-hidden">
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-10">
-                <h2 class="text-4xl font-bold mb-2 text-white">آزادی‌نت</h2>
+                <h2 class="text-4xl font-bold mb-2 text-white">معین vpn</h2>
                 <p class="text-blue-200">اینترنت آزاد برای همه، همیشه و همه‌جا</p>
             </div>
             <div class="border-t border-white border-opacity-20 pt-6 text-center text-blue-200 text-sm">
                 <p>
-                    © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
+                    © 1404 معین vpn - ساخته شده با ❤️ برای مردم جنوب
                 </p>
             </div>
         </div>
     </footer>
-
     <script>
         const dailyConfigLink = 'vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config';
         const subLink = "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt";
-        
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for welcome modal and hide if already seen
             if (!sessionStorage.getItem('azadiNetWelcomed')) {
                 document.getElementById('welcomeModal').classList.remove('hidden');
             }
@@ -536,44 +610,52 @@
             }
 
             const faqData = [
-                { question: "آیا این سرویس رایگان است؟", answer: "بله، سرویس آزادی‌نت کاملاً رایگان است و همیشه رایگان باقی خواهد ماند. هدف ما فراهم کردن دسترسی آزاد به اینترنت برای همه است." },
+                { question: "آیا این سرویس رایگان است؟", answer: "بله، سرویس معین vpn کاملاً رایگان است و همیشه رایگان باقی خواهد ماند. هدف ما فراهم کردن دسترسی آزاد به اینترنت برای همه است." },
                 { question: "چرا گاهی سرعت کم می‌شود؟", answer: "کاهش سرعت می‌تواند به دلیل شلوغی سرور در ساعات اوج مصرف یا اختلالات شبکه اینترنت شما باشد. پیشنهاد می‌کنیم سرور دیگری را امتحان کنید یا در زمان دیگری متصل شوید." },
                 { question: "آیا استفاده از VPN امن است؟", answer: "بله، ما از آخرین پروتکل‌های رمزنگاری برای حفاظت از اطلاعات شما استفاده می‌کنیم. ترافیک شما کاملاً امن و غیرقابل ردیابی است." },
                 { question: "چگونه می‌توانم سرعت را بهبود دهم؟", answer: "برای بهترین سرعت، سروری را انتخاب کنید که از نظر جغرافیایی به شما نزدیک‌تر است. همچنین، بستن برنامه‌های اضافی که از اینترنت استفاده می‌کنند می‌تواند به بهبود سرعت کمک کند." },
                 { question: "اگر سرور قطع شود چه کنم؟", answer: "کافیست از لیست سرورها، یک سرور دیگر را انتخاب و متصل شوید. ما چندین سرور فعال برای اطمینان از پایداری سرویس داریم." },
-                { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از آزادی‌نت روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
+                { question: "آیا روی همه دستگاه‌ها کار می‌کند؟", answer: "بله، شما می‌توانید از معین vpn روی سیستم‌عامل‌های اندروید، iOS، ویندوز و macOS با استفاده از کلاینت‌های معرفی شده در بخش دانلود استفاده کنید." }
             ];
             
             const container = document.getElementById('faq-container');
-            faqData.forEach(item => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'card-glass rounded-2xl overflow-hidden';
-                faqItem.innerHTML = `
-                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer hover:bg-white hover:bg-opacity-10">
-                        <h3 class="font-semibold text-white">${item.question}</h3>
-                        <i class="fa-solid fa-chevron-down text-gray-300 transition-transform"></i>
+            if(container) {
+                container.innerHTML = faqData.map(item => `
+                    <div class="card-glass rounded-2xl overflow-hidden">
+                        <div class="faq-question flex justify-between items-center p-5 cursor-pointer hover:bg-white hover:bg-opacity-10">
+                            <h3 class="font-semibold text-white">${item.question}</h3>
+                            <i class="fa-solid fa-chevron-down text-gray-300 transition-transform"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p class="p-5 pt-0 text-gray-300">${item.answer}</p>
+                        </div>
                     </div>
-                    <div class="faq-answer">
-                        <p class="p-5 pt-0 text-gray-300">${item.answer}</p>
-                    </div>
-                `;
-                container.appendChild(faqItem);
-            });
+                `).join('');
 
-            container.addEventListener('click', function(e) {
-                const question = e.target.closest('.faq-question');
-                if (question) {
-                    const answer = question.nextElementSibling;
-                    const icon = question.querySelector('i');
-                    
-                    if (answer.style.maxHeight) {
-                        answer.style.maxHeight = null;
-                        icon.classList.remove('rotate-180');
-                    } else {
-                        answer.style.maxHeight = answer.scrollHeight + "px";
-                        icon.classList.add('rotate-180');
+                container.addEventListener('click', function(e) {
+                    const question = e.target.closest('.faq-question');
+                    if (question) {
+                        const answer = question.nextElementSibling;
+                        const icon = question.querySelector('i');
+                        if (answer.style.maxHeight) {
+                            answer.style.maxHeight = null;
+                            icon.classList.remove('rotate-180');
+                        } else {
+                            answer.style.maxHeight = answer.scrollHeight + "px";
+                            icon.classList.add('rotate-180');
+                        }
                     }
-                }
+                });
+            }
+            
+            // Handle smooth scrolling for anchors
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
             });
         });
     </script>
