@@ -535,18 +535,20 @@
                 const data = await response.json();
                 exclusiveConfigs = data.exclusiveConfigs;
                 dailyConfigLink = data.dailyConfigLink;
-                
-                // Initialize other dynamic parts of the page here
+                document.getElementById('subLink').textContent = data.subLink;
+
                 updateServerStats();
                 buildFAQ();
                 getUserInfo();
                 
-                // Add click events for quick actions
                 document.querySelectorAll('.ripple').forEach(item => {
                     item.addEventListener('click', function(e) {
                         e.preventDefault();
                         const targetId = this.getAttribute('href').substring(1);
-                        document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
                     });
                 });
 
@@ -556,7 +558,6 @@
             }
         }
 
-        // Functions for Admin Panel
         function showAdminLogin() {
             document.getElementById('adminPanelLogin').classList.remove('hidden');
         }
@@ -573,7 +574,7 @@
         }
 
         function logoutAdmin() {
-            document.getElementById('adminPanelLogin').classList.remove('hidden');
+            document.getElementById('adminPanelLogin').classList.add('hidden');
             document.getElementById('adminPanelContent').classList.add('hidden');
             document.getElementById('adminPassword').value = '';
         }
@@ -627,7 +628,11 @@
                 </div>
             `;
             const addButton = form.querySelector('.card-glass:last-child');
-            addButton.insertAdjacentHTML('afterend', newFieldHtml);
+            if (addButton) {
+                addButton.insertAdjacentHTML('afterend', newFieldHtml);
+            } else {
+                form.innerHTML += newFieldHtml;
+            }
         }
 
         function removeConfigField(button) {
@@ -656,7 +661,7 @@
                 showNotification('لطفاً همه فیلدها را پر کنید.', 'error');
             } else {
                 exclusiveConfigs = newExclusiveConfigs;
-                showNotification('تغییرات با موفقیت ذخیره شد!', 'success');
+                showNotification('تغییرات با موفقیت ذخیره شد! اما برای اعمال کامل، باید فایل data.json را به صورت دستی آپلود کنید.', 'success');
                 loadConfigsToAdminPanel(); 
             }
         }
