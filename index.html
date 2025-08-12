@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معین وی پی ان- سرویس VPN حرفه‌ای و رایگان</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script>
         tailwind.config = {
@@ -129,41 +128,6 @@
         </div>
     </div>
     
-    <div id="adminPanelLogin" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 animate-slide-up shadow-2xl border text-gray-900">
-            <div class="text-center">
-                <h2 class="text-2xl font-bold mb-4">ورود به پنل مدیریت</h2>
-                <p class="text-sm text-gray-600 mb-6">رمز عبور مدیریتی را وارد کنید.</p>
-                <input type="password" id="adminPassword" placeholder="رمز عبور" class="w-full bg-gray-200 rounded-xl p-3 mb-4 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="loginAdmin()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold ripple transition-all shadow-lg hover:shadow-xl">
-                    ورود
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminPanelContent" class="hidden fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md overflow-y-auto z-50 p-4 animate-fade-in">
-        <div class="card-glass rounded-3xl p-8 max-w-xl w-full mx-auto my-10">
-            <h2 class="text-3xl font-bold mb-6 text-center text-white">پنل مدیریت کانفیگ‌ها</h2>
-            <div id="adminConfigForm" class="space-y-4">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
-                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
-                </div>
-                <div class="card-glass p-4 rounded-xl text-center">
-                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
-                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
-                    </button>
-                </div>
-            </div>
-            <div class="text-center mt-8">
-                <button onclick="saveConfigs()" class="bg-green-500 hover:bg-green-600 text-white py-3 px-8 rounded-xl font-bold text-lg ripple transition-all shadow-lg hover:shadow-xl">
-                    ذخیره تغییرات
-                </button>
-            </div>
-        </div>
-    </div>
-
     <header class="py-20 relative overflow-hidden">
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center animate-fade-in">
@@ -505,7 +469,6 @@
                 <p class="text-blue-200">اینترنت آزاد برای همه، همیشه و همه‌جا</p>
             </div>
             <div class="border-t border-white border-opacity-20 pt-6 text-center text-blue-200 text-sm">
-                <button onclick="showAdminLogin()" class="text-sm text-blue-300 hover:underline">ورود به پنل مدیریت</button>
                 <p>
                     © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
                 </p>
@@ -514,264 +477,74 @@
     </footer>
 
     <script>
-        const ADMIN_PASSWORD = 'moein'; 
-        const JSON_URL = 'data.json';
-        let exclusiveConfigs = {};
-        let dailyConfigLink = '';
-        let subLink = '';
-
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for welcome modal and hide if already seen
             if (!sessionStorage.getItem('azadiNetWelcomed')) {
                 document.getElementById('welcomeModal').classList.remove('hidden');
             }
-            fetchConfigsAndInit();
-        });
-
-        async function fetchConfigsAndInit() {
-            try {
-                const response = await fetch(JSON_URL);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch JSON: ${response.status} ${response.statusText}`);
-                }
-                const data = await response.json();
-                exclusiveConfigs = data.exclusiveConfigs;
-                dailyConfigLink = data.dailyConfigLink;
-                subLink = data.subLink;
-
-                const subLinkElement = document.getElementById('subLink');
-                if (subLinkElement) {
-                    subLinkElement.textContent = subLink;
-                }
-
-                updateServerStats();
-                buildFAQ();
-                getUserInfo();
-                
-                document.querySelectorAll('.ripple').forEach(item => {
-                    item.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const targetId = this.getAttribute('href').substring(1);
-                        const targetElement = document.getElementById(targetId);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    });
-                });
-
-            } catch (error) {
-                console.error("Error loading configs:", error);
-                showNotification('خطا در بارگذاری اطلاعات سایت. لطفاً بعداً دوباره امتحان کنید.', 'error');
-            }
-        }
-
-        function showAdminLogin() {
-            document.getElementById('adminPanelLogin').classList.remove('hidden');
-        }
-
-        function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
-                document.getElementById('adminPanelLogin').classList.add('hidden');
-                document.getElementById('adminPanelContent').classList.remove('hidden');
-                loadConfigsToAdminPanel();
-            } else {
-                alert('رمز عبور اشتباه است!');
-            }
-        }
-
-        function logoutAdmin() {
-            document.getElementById('adminPanelLogin').classList.remove('hidden');
-            document.getElementById('adminPanelContent').classList.add('hidden');
-            document.getElementById('adminPassword').value = '';
-        }
-
-        function loadConfigsToAdminPanel() {
-            const form = document.getElementById('adminConfigForm');
-            const currentConfigsHtml = Object.keys(exclusiveConfigs).map(phone => {
-                const config = exclusiveConfigs[phone];
-                return `
-                    <div class="card-glass p-4 rounded-xl relative">
-                        <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                        <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
-                        <input type="text" data-key="phone" value="${phone}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-                        <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
-                        <input type="text" data-key="name" value="${config.name}" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-                        <label class="block text-gray-400 text-sm mb-1">لینک کانفیگ</label>
-                        <textarea data-key="config" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500">${config.config}</textarea>
-                    </div>
-                `;
-            }).join('');
             
-            form.innerHTML = `
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-bold text-gray-200">کانفیگ‌های اختصاصی</h3>
-                    <button onclick="logoutAdmin()" class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-bold">خروج</button>
-                </div>
-                <div class="card-glass p-4 rounded-xl text-center">
-                    <button onclick="addConfigField()" class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">
-                        <i class="fa-solid fa-plus ml-2"></i>افزودن کانفیگ جدید
-                    </button>
-                </div>
-                ${currentConfigsHtml}
-            `;
-        }
-        
-        function addConfigField() {
-            const form = document.getElementById('adminConfigForm');
-            const newFieldHtml = `
-                <div class="card-glass p-4 rounded-xl relative">
-                    <button onclick="removeConfigField(this)" class="absolute top-2 left-2 text-red-500 hover:text-red-700">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                    <label class="block text-gray-400 text-sm mb-1">شماره تماس</label>
-                    <input type="text" data-key="phone" placeholder="مثال: 09121234567" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-                    <label class="block text-gray-400 text-sm mb-1">نام کاربر</label>
-                    <input type="text" data-key="name" placeholder="مثال: علی احمدی" class="w-full bg-black bg-opacity-20 rounded-md p-2 mb-2 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-                    <label class="block text-gray-400 text-sm mb-1">لینک کانفیگ</label>
-                    <textarea data-key="config" placeholder="لینک VLESS, VMESS, Trojan" class="w-full bg-black bg-opacity-20 rounded-md p-2 text-white font-mono text-sm h-24 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
-                </div>
-            `;
-            const addButton = form.querySelector('.card-glass:last-child');
-            if (addButton) {
-                addButton.insertAdjacentHTML('afterend', newFieldHtml);
-            } else {
-                form.innerHTML += newFieldHtml;
+            // Set static links and content
+            document.getElementById('subLink').textContent = "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt";
+            
+            // Function to copy a link to clipboard
+            function copyToClipboard(text, message) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert(message);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
             }
-        }
 
-        function removeConfigField(button) {
-            button.closest('.card-glass').remove();
-        }
+            // Copy link button handlers
+            window.copySubLink = function() {
+                copyToClipboard(document.getElementById('subLink').textContent, '✅ لینک اشتراک کپی شد!');
+            }
+            window.copyDailyConfig = function() {
+                copyToClipboard("vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config", '✅ کانفیگ روز با موفقیت کپی شد!');
+            }
 
-        function saveConfigs() {
-            const form = document.getElementById('adminConfigForm');
-            const newExclusiveConfigs = {};
-            let isError = false;
-
-            const configItems = form.querySelectorAll('.card-glass');
-            configItems.forEach(item => {
-                const phone = item.querySelector('input[data-key="phone"]').value.trim();
-                const name = item.querySelector('input[data-key="name"]').value.trim();
-                const config = item.querySelector('textarea[data-key="config"]').value.trim();
-
-                if (phone && name && config) {
-                    newExclusiveConfigs[phone] = { name, config };
-                } else {
-                    isError = true;
+            // FAQ accordion functionality
+            document.getElementById('faq-container').addEventListener('click', function(e) {
+                const question = e.target.closest('.faq-question');
+                if (question) {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('i');
+                    
+                    if (answer.style.maxHeight) {
+                        answer.style.maxHeight = null;
+                        icon.classList.remove('rotate-180');
+                    } else {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                        icon.classList.add('rotate-180');
+                    }
                 }
             });
 
-            if (isError) {
-                showNotification('لطفاً همه فیلدها را پر کنید.', 'error');
-            } else {
-                exclusiveConfigs = newExclusiveConfigs;
-                showNotification('تغییرات با موفقیت ذخیره شد! برای اعمال کامل، باید فایل data.json را به صورت دستی کپی و در آن فایل جایگزین کنید.', 'success');
-                loadConfigsToAdminPanel(); 
+            // Welcome modal close functionality
+            window.closeWelcome = function() {
+                sessionStorage.setItem('azadiNetWelcomed', 'true');
+                const modal = document.getElementById('welcomeModal');
+                modal.style.transition = 'opacity 0.3s ease';
+                modal.style.opacity = '0';
+                setTimeout(() => modal.classList.add('hidden'), 300);
             }
-        }
-
-        function checkSubscription() {
-            const phoneInput = document.getElementById('phoneInput').value.trim();
-            const resultDiv = document.getElementById('exclusiveConfigResult');
-            const userConfig = exclusiveConfigs[phoneInput];
             
-            resultDiv.innerHTML = '';
-            resultDiv.classList.add('hidden');
-
-            if (userConfig) {
-                resultDiv.innerHTML = `
-                    <div class="mt-4 p-4 rounded-lg bg-green-500 bg-opacity-30 border border-green-500">
-                        <h4 class="font-bold text-green-300"><i class="fa-solid fa-check-circle ml-2"></i>شماره شما تایید شد!</h4>
-                        <p class="text-sm mt-2">کانفیگ اختصاصی برای **${userConfig.name}**:</p>
-                        <div class="bg-black bg-opacity-20 rounded-xl p-3 mt-4 flex items-center justify-between">
-                            <p id="exclusiveConfig" class="font-mono text-center text-white text-sm break-all">${userConfig.config}</p>
-                            <button onclick="copyToClipboard(document.getElementById('exclusiveConfig').textContent, '✅ کانفیگ اختصاصی کپی شد!')" class="mr-2 text-white bg-green-600 hover:bg-green-700 p-2 rounded-lg ripple transition">
-                                <i class="fa-solid fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>`;
-                resultDiv.classList.remove('hidden');
-            } else {
-                resultDiv.innerHTML = `
-                    <div class="mt-4 p-4 rounded-lg bg-red-500 bg-opacity-30 border border-red-500">
-                        <h4 class="font-bold text-red-300"><i class="fa-solid fa-exclamation-triangle ml-2"></i>شماره تماس یافت نشد!</h4>
-                        <p class="text-sm mt-2">لطفاً شماره تماس را به درستی وارد کنید یا برای خرید اشتراک با پشتیبانی تماس بگیرید.</p>
-                    </div>`;
-                resultDiv.classList.remove('hidden');
+            // Dummy functions for server stats and IP info since there is no backend
+            function updateServerStats() {
+                document.getElementById('uptime').textContent = '100.0000';
+                document.getElementById('activeServers').textContent = '24';
+                document.getElementById('serverPing').textContent = '45ms';
             }
-        }
-
-        function updateServerStats() {
-            const serviceStartDate = new Date('2023-01-01T00:00:00Z');
-            const totalDowntimeInSeconds = 2 * 3600; 
-            const now = new Date();
-            const totalTimeInSeconds = (now - serviceStartDate) / 1000;
-            const totalUptimeInSeconds = totalTimeInSeconds - totalDowntimeInSeconds;
-            const uptimePercentage = (totalUptimeInSeconds / totalTimeInSeconds) * 100;
-            document.getElementById('uptime').textContent = uptimePercentage.toFixed(4);
-
-            const basePing = 45;
-            const fluctuation = (Math.random() - 0.5) * 20;
-            const currentPing = Math.round(basePing + fluctuation);
-            document.getElementById('serverPing').textContent = currentPing + 'ms';
-        }
-        
-        async function copyToClipboard(text, message) {
-            try {
-                await navigator.clipboard.writeText(text);
-                showNotification(message, 'success');
-            } catch (err) {
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                textArea.style.position = 'fixed';
-                textArea.style.opacity = '0';
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showNotification(message, 'success');
-                } catch (err) {
-                    showNotification('خطا در کپی کردن!', 'error');
-                }
-                document.body.removeChild(textArea);
+            function getUserInfo() {
+                document.getElementById('user-ip').textContent = '127.0.0.1';
+                document.getElementById('user-location').textContent = 'نامشخص';
+                document.getElementById('user-isp').textContent = 'نامشخص';
             }
-        }
-
-        function copyDailyConfig() {
-            copyToClipboard(dailyConfigLink, '✅ کانفیگ روز با موفقیت کپی شد!');
-        }
-
-        function closeWelcome() {
-            sessionStorage.setItem('azadiNetWelcomed', 'true');
-            const modal = document.getElementById('welcomeModal');
-            modal.style.transition = 'opacity 0.3s ease';
-            modal.style.opacity = '0';
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        function showNotification(message, type = 'success') {
-            const existing = document.querySelector('.notification-toast');
-            if(existing) existing.remove();
-
-            const notification = document.createElement('div');
-            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-            const icon = type === 'success' ? '<i class="fa-solid fa-check-circle"></i>' : '<i class="fa-solid fa-times-circle"></i>';
             
-            notification.className = `notification-toast fixed bottom-5 right-5 md:bottom-auto md:top-5 ${bgColor} text-white px-5 py-3 rounded-xl shadow-lg z-50 flex items-center space-x-3 space-x-reverse animate-fade-in`;
-            notification.innerHTML = `<span class="text-xl">${icon}</span> <span class="font-medium">${message}</span>`;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateX(100%)';
-                setTimeout(() => notification.remove(), 500);
-            }, 3000);
-        }
+            // Call initialization functions
+            updateServerStats();
+            getUserInfo();
+        });
     </script>
 </body>
 </html>
