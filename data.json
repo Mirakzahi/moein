@@ -201,5 +201,6 @@
       "config": "vless://exclusive-config-for-personal-use-50@127.0.0.50:443?security=tls&alpn=h2,http/1.1&encryption=none&host=example.com#Exclusive-Personal-VPN-50"
     }
   },
-  "dailyConfigLink": "vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config"
+  "dailyConfigLink": "vless://daily-free-config-link@127.0.0.1:8080?security=none#Daily-Config",
+  "subLink": "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/Countries/Germany.txt"
 }
