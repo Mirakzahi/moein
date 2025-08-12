@@ -505,7 +505,6 @@
                 <p class="text-blue-200">اینترنت آزاد برای همه، همیشه و همه‌جا</p>
             </div>
             <div class="border-t border-white border-opacity-20 pt-6 text-center text-blue-200 text-sm">
-                <button onclick="showAdminLogin()" class="text-sm text-blue-300 hover:underline">ورود به پنل مدیریت</button>
                 <p>
                     © 1404 آزادی‌نت - ساخته شده با ❤️ برای مردم ایران
                 </p>
@@ -574,7 +573,7 @@
         }
 
         function logoutAdmin() {
-            document.getElementById('adminPanelLogin').classList.add('hidden');
+            document.getElementById('adminPanelLogin').classList.remove('hidden');
             document.getElementById('adminPanelContent').classList.add('hidden');
             document.getElementById('adminPassword').value = '';
         }
@@ -660,8 +659,16 @@
             if (isError) {
                 showNotification('لطفاً همه فیلدها را پر کنید.', 'error');
             } else {
+                // This part is the key: we simulate saving to a file.
+                // For a real server, you'd send this data to the backend.
+                // Here, we just log it and show a success message.
+                // In a real scenario, you'd send the newExclusiveConfigs object to your server.
+                console.log('New configs to save:', newExclusiveConfigs);
+
+                showNotification('تغییرات با موفقیت ذخیره شد! برای اعمال تغییرات در فایل data.json، باید این اطلاعات را به صورت دستی کپی و در آن فایل جایگزین کنید.', 'success');
+                
+                // Show the updated data in the admin panel
                 exclusiveConfigs = newExclusiveConfigs;
-                showNotification('تغییرات با موفقیت ذخیره شد! اما برای اعمال کامل، باید فایل data.json را به صورت دستی آپلود کنید.', 'success');
                 loadConfigsToAdminPanel(); 
             }
         }
