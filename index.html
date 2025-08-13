@@ -932,40 +932,9 @@
             }, 3000);
         }
     </script>
-    // ... سایر توابع جاوااسکریپت
-
-async function pingDailyConfig() {
-    const btn = document.getElementById('pingDailyBtn');
-    const resultDiv = document.getElementById('dailyPingResult');
-    const url = 'www.google.com'; // به دلیل اینکه کانفیگ روز لینک مستقیم نیست، از یک سایت معروف برای تست استفاده می‌کنیم.
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin ml-2"></i> در حال تست...';
-    resultDiv.innerHTML = ''; // پاک کردن نتیجه قبلی
-
-    const startTime = performance.now();
-    try {
-        await fetch(`https://${url}/favicon.ico?t=${new Date().getTime()}`, { mode: 'no-cors', cache: 'no-store' });
-        const endTime = performance.now();
-        const latency = Math.round(endTime - startTime);
-
-        let pingStatusClass = 'text-green-400';
-        if (latency > 300) {
-            pingStatusClass = 'text-red-400';
-        } else if (latency > 150) {
-            pingStatusClass = 'text-yellow-400';
-        }
-
-        resultDiv.innerHTML = `<p class="font-mono text-xl font-bold ${pingStatusClass}">پینگ: ${latency}ms</p>`;
-    } catch (error) {
-        resultDiv.innerHTML = `<p class="font-mono text-red-400 text-xl font-bold">پینگ ناموفق بود!</p>`;
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-signal ml-2"></i> تست پینگ';
-    }
-}
 </body>
 </html>
+
 
 
 
